@@ -1,6 +1,40 @@
+@import "../components/variables";
+
 .subTitle {
   line-height: 1.45em;
   font-weight: 600;
+}
+
+.navLink {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.signUpButton {
+  font-weight: 500;
+  font-size: 14px;
+  border: solid thin #fa2d4a;
+  border-radius: 10px;
+  padding: 10px 0px;
+  text-align: center;
+  width: 140px;
+
+  span {
+    color: black;
+  }
+
+  &:hover {
+    border: solid thin #ed8c92;
+
+    span {
+      color: white;
+    }
+
+    background-image: linear-gradient(to right,
+      #fa2d4a 0%,
+      #ed8c92 100%,
+      #fa2d4a 100%);
+  }
 }
 
 .giftDescription {
@@ -10,12 +44,10 @@
 .giftButton {
   font-size: 15px;
   text-decoration: none;
-  background-image: linear-gradient(
-    to right,
-    #fa2d4a 0%,
-    #ed8c92 51%,
-    #fa2d4a 100%
-  );
+  background-image: linear-gradient(to right,
+      #fa2d4a 0%,
+      #ed8c92 51%,
+      #fa2d4a 100%);
   padding: 15px;
   text-align: center;
   text-transform: uppercase;
@@ -27,7 +59,8 @@
   display: block;
 
   &:hover {
-    background-position: right center; /* change the direction of the change here */
+    background-position: right center;
+    /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
   }
@@ -40,95 +73,146 @@
     margin-top: 180px;
     margin-bottom: 80px;
     display: flex;
+    justify-content: center;
     grid-gap: 20px;
-    & > a {
+
+    &>a {
       font-weight: 500;
       height: 180px;
       border-radius: 15px;
       background: white;
+
+      @include respond-to("md") {
+        width: calc(100% / 2 - 20px);
+        ;
+      }
+
       span {
         font-weight: 500;
       }
     }
   }
+
   #popularGift {
-    display: flex;
-    grid-gap: 15px;
-    & > a {
-      font-weight: 500;
-      border: solid thin #bfc2c7;
-      border-radius: 15px;
-      padding: 15px;
-      span {
-        color: black;
+    &>div {
+      display: flex;
+      grid-gap: 15px;
+
+      @include respond-to("md") {
+        flex-wrap: wrap;
+        align-items: center;
       }
-      &:hover {
-        border: none;
-        span {
-          color: white;
+
+      &>a {
+        @include respond-to("md") {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: calc(100% / 2 - 15px);
+          height: 80px;
         }
-        background: #150e4b;
-      }
-      &:global(.active) {
-        border: none;
+
+        font-weight: 500;
+        border: solid thin #bfc2c7;
+        border-radius: 15px;
+        padding: 15px;
+
         span {
-          color: white;
+          color: black;
         }
-        background: #150e4b;
+
+        &:hover {
+          border: none;
+
+          span {
+            color: white;
+          }
+
+          background: #150e4b;
+        }
+
+        &:global(.active) {
+          border: none;
+
+          span {
+            color: white;
+          }
+
+          background: #150e4b;
+        }
       }
     }
   }
+
   #gift {
     display: flex;
     grid-gap: 26px;
-    & > a {
+
+    @include respond-to("md") {
+      justify-content: center;
+      align-items: center;
+    }
+
+    &>a {
       font-weight: 500;
       color: #150e4b;
       background: white;
-      width: 265px;
+      width: calc(100% / 4 - 26px);
       border-radius: 20px;
+
+      @include respond-to("md") {
+        width: 100%;
+      }
+
       img {
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         width: 100%;
         object-fit: cover;
       }
-      & > div {
+
+      &>div {
         padding-top: 30px;
         padding-bottom: 35px;
-        & > div {
+
+        &>div {
           h4 {
             font-size: 22px;
           }
-          & > span {
+
+          &>span {
             margin-top: 5px;
             font-size: 12px;
           }
-          & > a {
+
+          &>a {
             font-weight: 500;
             font-size: 12px;
             border: solid thin #bfc2c7;
             border-radius: 15px;
             padding: 10px;
             width: 100px;
+
             span {
               color: black;
             }
+
             &:hover {
               border: solid thin #ed8c92;
+
               span {
                 color: white;
               }
-              background-image: linear-gradient(
-                to right,
+
+              background-image: linear-gradient(to right,
                 #fa2d4a 0%,
                 #ed8c92 100%,
-                #fa2d4a 100%
-              );
+                #fa2d4a 100%);
             }
           }
         }
-        & > div:last-child {
+
+        &>div:last-child {
           span {
             font-size: 16px;
             font-weight: 500;
@@ -137,18 +221,17 @@
       }
     }
   }
+
   .viewAll {
     a {
       font-weight: 500;
       width: 130px;
       font-size: 15px;
       text-decoration: none;
-      background-image: linear-gradient(
-        to right,
-        #fa2d4a 0%,
-        #ed8c92 51%,
-        #fa2d4a 100%
-      );
+      background-image: linear-gradient(to right,
+          #fa2d4a 0%,
+          #ed8c92 51%,
+          #fa2d4a 100%);
       padding: 15px;
       text-align: center;
       text-transform: uppercase;
@@ -160,23 +243,37 @@
       display: block;
     }
   }
+
   #specialize {
-    & > h2 {
+    &>h2 {
       margin-top: 100px;
       line-height: 2;
     }
-    & > p {
+
+    &>p {
       line-height: 2;
     }
-    & > div {
+
+    &>div {
       display: flex;
       grid-gap: 20px;
-      & > div {
+
+      @include respond-to("md") {
+        flex-direction:
+          column;
+      }
+
+      &>div {
         padding: 40px 0px;
         color: black;
         background: white;
         width: calc(100% / 4);
         border-radius: 20px;
+
+        @include respond-to("md") {
+          width: 100%;
+        }
+
         img {
           border-top-left-radius: 20px;
           border-top-right-radius: 20px;
@@ -186,26 +283,32 @@
       }
     }
   }
+
   #different {
     margin-top: 150px;
-    & > div {
-      & > h1 {
+
+    &>div {
+      @include respond-to("md") {
+        width: 100%;
+      }
+
+      &>h1 {
         line-height: 2;
       }
-      & > p {
+
+      &>p {
         line-height: 1.8;
       }
+
       a {
         font-weight: 500;
         width: 130px;
         font-size: 15px;
         text-decoration: none;
-        background-image: linear-gradient(
-          to right,
-          #fa2d4a 0%,
-          #ed8c92 51%,
-          #fa2d4a 100%
-        );
+        background-image: linear-gradient(to right,
+            #fa2d4a 0%,
+            #ed8c92 51%,
+            #fa2d4a 100%);
         padding: 20px;
         text-align: center;
         text-transform: uppercase;
@@ -216,49 +319,87 @@
         border-radius: 10px;
         display: block;
       }
+
       iframe {
         width: 100%;
         border-radius: 20px;
       }
     }
   }
+
   #work {
     margin-top: 150px;
-    & > div {
+
+    &>div {
       &:hover {
         cursor: pointer;
         border-radius: 20px;
         background: white;
       }
+
       h5 {
         line-height: 1.6;
       }
+
       p {
         font-size: 14px;
         line-height: 2;
       }
-      & > a {
+
+      &>a {
         font-weight: 500;
         font-size: 15px;
         border: solid thin #bfc2c7;
         border-radius: 15px;
         padding: 12px;
         width: 120px;
+
         span {
           color: black;
         }
+
         &:hover {
           border: solid thin #ed8c92;
+
           span {
             color: white;
           }
-          background-image: linear-gradient(
-            to right,
+
+          background-image: linear-gradient(to right,
             #fa2d4a 0%,
             #ed8c92 100%,
-            #fa2d4a 100%
-          );
+            #fa2d4a 100%);
         }
+      }
+    }
+  }
+  #subscribe {
+    margin-top: 150px;
+    background-color: white;
+    border-radius: 15px;
+    & > div {
+      padding: 70px;
+      p {
+        line-height: 2;
+        font-size: 14px;
+      }
+      a {
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        background-image: linear-gradient(to right,
+            #fa2d4a 0%,
+            #ed8c92 51%,
+            #fa2d4a 100%);
+        padding: 20px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0px 17px 25px #f0c7cf;
+        border-radius: 10px;
+        display: block;
       }
     }
   }

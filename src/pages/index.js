@@ -4,13 +4,17 @@ import Img from "gatsby-image";
 import { graphql } from "gatsby";
 import * as styles from "../styles/modules/home.module.scss";
 import * as stylesFooter from "../styles/modules/footer.module.scss";
+import { Helmet } from "react-helmet";
 
 // markup
 const IndexPage = ({ data }) => {
   return (
     <>
       <main>
-        <title>GiftIn</title>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>GiftIn</title>
+        </Helmet>
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container-lg py-3">
             <a className="navbar-brand fw-bold" href="/">
@@ -482,10 +486,7 @@ const IndexPage = ({ data }) => {
                 />
               </a>
               <a className="me-2" href="/">
-                <Img
-                  fixed={data.twitter.childImageSharp.fixed}
-                  alt="Twitter"
-                />
+                <Img fixed={data.twitter.childImageSharp.fixed} alt="Twitter" />
               </a>
               <a className="me-2" href="/">
                 <svg

@@ -115,7 +115,7 @@ const Cart = ({ data }) => {
         window.location.replace(checkout.webUrl);
       });
     }
-  }
+  };
 
   React.useEffect(() => {
     fetchCart();
@@ -149,7 +149,6 @@ const Cart = ({ data }) => {
                   </div>
                   {dataCart.map((data, id) => (
                     <div
-                      onClick={() => window.location.replace(data.webUrl)}
                       className="col mt-3"
                       id={styles.card}
                       key={id}
@@ -161,8 +160,20 @@ const Cart = ({ data }) => {
                           </button>
                         </div>
                         <div className="col-6">
-                          <h4>{data.title}</h4>
-                          <p>{`Rp.${data.variant.price}`}</p>
+                          <div className="row">
+                            <div className="col-2">
+                              <img
+                                src={data.variant.image.src}
+                                alt={data.variant.image.altText}
+                                width="80"
+                                height="80"
+                              />
+                            </div>
+                            <div className="col">
+                              <h5>{data.title}</h5>
+                              <p>{`Rp.${data.variant.price}`}</p>
+                            </div>
+                          </div>
                         </div>
                         <div className="col">
                           <div className="row justify-content-center">
@@ -218,7 +229,10 @@ const Cart = ({ data }) => {
                           </div>
                         </div>
                       </div>
-                      <button onClick={() => onCheckout()} className="d-flex m-auto">
+                      <button
+                        onClick={() => onCheckout()}
+                        className="d-flex m-auto"
+                      >
                         <span>PROCEED TO CHECKOUT</span>
                       </button>
                     </div>

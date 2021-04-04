@@ -45,6 +45,9 @@
 
     &>div {
         padding: 70px;
+        @include respond-to("sm") {
+            padding: 30px;
+        }
 
         p {
             line-height: 2;

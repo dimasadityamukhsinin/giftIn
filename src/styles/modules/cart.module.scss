@@ -1,3 +1,5 @@
+@import "../components/variables";
+
 #cart {
     background: #eef1f6;
 
@@ -6,6 +8,10 @@
         font-weight: 500;
 
         &>div {
+            @include respond-to("sm") {
+                width: 100%;
+            }
+
             button {
                 width: 90%;
                 position: relative;
@@ -43,12 +49,15 @@
                 background: white;
 
                 &>div:first-child {
-                    &>div {
-                        border-bottom: solid thin #bcbec2;
+                    @include respond-to("sm") {
+                        width: 60%;
                     }
+                }
 
-                    &>div:last-child {
-                        border: none;
+                &>div:last-child {
+
+                    @include respond-to("sm") {
+                        width: 40%;
                     }
                 }
             }
@@ -60,21 +69,37 @@
 
         &>div:nth-child(2) {
             &>div {
+                @include respond-to("sm") {
+                    width: calc(100% / 3);
+                }
+
                 font-weight: 500;
             }
 
             &>div:first-child {
                 padding-left: 105px;
+
+                @include respond-to("sm") {
+                    padding-left: 15px;
+                }
             }
         }
 
         #card {
-            cursor: pointer;
             background: white;
             border-radius: 15px;
 
             &>div {
+                @include respond-to("sm") {
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+
                 &>div:first-child {
+                    @include respond-to("sm") {
+                        width: 20%;
+                    }
+
                     button {
                         background: none;
                         outline: none;
@@ -92,7 +117,57 @@
                     }
                 }
 
+                &>div:nth-child(2) {
+
+                    @include respond-to("sm") {
+                        width: 80%;
+
+                        p {
+                            font-size: 13px;
+                        }
+                    }
+
+                    &>div {
+                        &>div:first-child {
+                            width: 35%;
+
+                            &>img {
+                                object-fit: contain;
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+
+                        &>div:last-child {
+                            width: 65%;
+
+                            h5 {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+
                 &>div:nth-child(3) {
+
+                    @include respond-to("sm") {
+                        flex: 0 0 auto;
+                        width: 50%;
+
+                        button {
+                            width: calc(100% / 3.3);
+                        }
+
+                        input {
+                            width: calc(100% / 3.3);
+                        }
+
+
+                        &>div {
+                            justify-content: flex-end !important;
+                        }
+                    }
+
                     &>div {
                         &>input {
                             outline: none;
@@ -112,6 +187,16 @@
                                 background: #150e4b;
                             }
                         }
+                    }
+                }
+
+                &>div:last-child {
+                    font-weight: 500;
+
+                    @include respond-to("sm") {
+                        flex: 0 0 auto;
+                        width: 50%;
+                        font-size: 14px;
                     }
                 }
             }

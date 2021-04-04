@@ -5,9 +5,19 @@ import * as styles from "../styles/modules/home.module.scss";
 import { Helmet } from "react-helmet";
 import Navigation from "../components/parts/navigation";
 import Footer from "../components/parts/footer";
+import ProductComponent from "../components/parts/productComponent";
+import LoadingProduct from "../components/parts/loadingProduct";
+import client from "../components/shopify";
 
 // markup
 const IndexPage = ({ data }) => {
+  const [product, setProduct] = React.useState();
+
+  React.useEffect(() => {
+    client.product.fetchAll().then((products) => {
+      setProduct(products.slice(0, 8))
+    });
+  }, []);
   return (
     <>
       <main>
@@ -28,7 +38,10 @@ const IndexPage = ({ data }) => {
                   Browse through some of the largest collection of gifts to
                   brighton your day
                 </p>
-                <a className={styles.giftButton + " w-50 mt-5"} href="/products">
+                <a
+                  className={styles.giftButton + " w-50 mt-5"}
+                  href="/products"
+                >
                   CHOOSE A GIFT
                 </a>
               </div>
@@ -113,139 +126,17 @@ const IndexPage = ({ data }) => {
                   </div>
                 </div>
                 <div className="row mb-5" id={styles.gift}>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a className="p-0" href="/">
-                    <img
-                      src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80"
-                      alt="product"
-                    />
-                    <div className="row m-0 px-3">
-                      <div className="col-7 d-flex flex-column p-0">
-                        <h4>Teddy Bear </h4>
-                        <span>Earliest Delivery From 27 Nov</span>
-                        <a className="col text-center mt-3" href="/">
-                          <span>GIFT NOW</span>
-                        </a>
-                      </div>
-                      <div className="col d-flex flex-column justify-content-between align-items-end p-0">
-                        <span>TES</span>
-                        <span className="mb-2">Rp.120.000</span>
-                      </div>
-                    </div>
-                  </a>
+                  {product ? (
+                    product.map((element, id) => (
+                      <ProductComponent
+                        key={id}
+                        dataProduct={element}
+                        data={data}
+                      />
+                    ))
+                  ) : (
+                    <LoadingProduct />
+                  )}
                 </div>
                 <div
                   className={`${styles.viewAll} row justify-content-center mb-5`}
@@ -395,7 +286,7 @@ const IndexPage = ({ data }) => {
           </div>
         </div>
       </main>
-      <Footer data={data}/>
+      <Footer data={data} />
     </>
   );
 };

@@ -1,0 +1,120 @@
+#cart {
+    background: #eef1f6;
+
+    #cartTotal {
+        margin-top: 80px;
+        font-weight: 500;
+
+        &>div {
+            button {
+                width: 90%;
+                position: relative;
+                top: -30px;
+                background: none;
+                outline: none;
+                border: none;
+                font-size: 15px;
+                background-image: linear-gradient(to right,
+                        #fa2d4a 0%,
+                        #ed8c92 51%,
+                        #fa2d4a 100%);
+                padding: 17px 0px;
+                transition: 0.5s;
+                background-size: 200% auto;
+                color: white;
+                box-shadow: 0px 17px 25px #f0c7cf;
+                border-radius: 10px;
+
+                &:hover {
+                    background-position: right center;
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                span {
+                    width: 100%;
+                    text-align: center;
+                    text-transform: uppercase;
+                }
+            }
+
+            &>div {
+                border-radius: 15px;
+                background: white;
+
+                &>div:first-child {
+                    &>div {
+                        border-bottom: solid thin #bcbec2;
+                    }
+
+                    &>div:last-child {
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
+    &>div {
+        padding-top: 100px;
+
+        &>div:nth-child(2) {
+            &>div {
+                font-weight: 500;
+            }
+
+            &>div:first-child {
+                padding-left: 105px;
+            }
+        }
+
+        #card {
+            cursor: pointer;
+            background: white;
+            border-radius: 15px;
+
+            &>div {
+                &>div:first-child {
+                    button {
+                        background: none;
+                        outline: none;
+                        border: none;
+
+                        svg {
+                            fill: #bcbec2;
+                        }
+
+                        &:hover {
+                            svg {
+                                fill: black;
+                            }
+                        }
+                    }
+                }
+
+                &>div:nth-child(3) {
+                    &>div {
+                        &>input {
+                            outline: none;
+                            border: solid thin #bcbec2;
+
+                            &:hover {
+                                outline: none;
+                            }
+                        }
+
+                        &>button {
+                            border: none;
+                            background: #eef1f6;
+
+                            &:hover {
+                                color: white;
+                                background: #150e4b;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

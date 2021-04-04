@@ -1,0 +1,71 @@
+@import "../components/variables";
+
+#productComponent {
+    font-weight: 500;
+    color: #150e4b;
+    background: white;
+    width: calc(100% / 4 - 26px);
+    border-radius: 20px;
+
+    @include respond-to("md") {
+        width: 100%;
+    }
+
+    &>img {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    &>div {
+        padding-top: 30px;
+        padding-bottom: 35px;
+
+        &>div {
+            h4 {
+                font-size: 16px;
+            }
+
+            &>span {
+                margin-top: 5px;
+                font-size: 12px;
+            }
+
+            &>a {
+                font-weight: 500;
+                font-size: 12px;
+                border: solid thin #bfc2c7;
+                border-radius: 15px;
+                padding: 10px;
+                width: 100px;
+
+                span {
+                    color: black;
+                }
+
+                &:hover {
+                    border: solid thin #ed8c92;
+
+                    span {
+                        color: white;
+                    }
+
+                    background-image: linear-gradient(to right,
+                        #fa2d4a 0%,
+                        #ed8c92 100%,
+                        #fa2d4a 100%);
+                }
+            }
+        }
+
+        &>div:last-child {
+            button {
+                background: none;
+                border: none;
+                font-size: 13px;
+                font-weight: 500;
+            }
+        }
+    }
+}

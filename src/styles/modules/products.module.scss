@@ -1,0 +1,70 @@
+@import "../components/variables";
+
+#products {
+    background: #eef1f6;
+    #popularGift {
+        padding-top: 100px;
+        &>div {
+            display: flex;
+            grid-gap: 15px;
+
+            @include respond-to("md") {
+                flex-wrap: wrap;
+                align-items: center;
+            }
+
+            &>a {
+                @include respond-to("md") {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: calc(100% / 2 - 15px);
+                    height: 80px;
+                }
+
+                font-weight: 500;
+                border: solid thin #bfc2c7;
+                border-radius: 15px;
+                padding: 15px;
+
+                span {
+                    color: black;
+                }
+
+                &:hover {
+                    border: none;
+
+                    span {
+                        color: white;
+                    }
+
+                    background: #150e4b;
+                }
+
+                &:global(.active) {
+                    border: none;
+
+                    span {
+                        color: white;
+                    }
+
+                    background: #150e4b;
+                }
+            }
+        }
+    }
+
+    #gift {
+        display: flex;
+        grid-gap: 26px;
+
+        @include respond-to("md") {
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    #pagination {
+        margin-top: 100px;
+    }
+}

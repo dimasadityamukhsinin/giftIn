@@ -23,5 +23,19 @@ module.exports = {
       },
       __key: "images",
     },
+    {
+      resolve: "gatsby-plugin-firebase",
+      options: {
+        credentials: {
+          apiKey: "AIzaSyBix2hqlqS5uOpVQX30A8Jo8tl15bK_hzk",
+          authDomain: "gitftin.firebaseapp.com",
+          projectId: "gitftin",
+          storageBucket: "gitftin.appspot.com",
+          messagingSenderId: "1054148980050",
+          appId: "1:1054148980050:web:f58b3f36b1768a8da8de8b",
+          measurementId: "G-YM5KG1M4DP"
+        }
+      }
+    }
   ],
 };

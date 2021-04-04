@@ -1,0 +1,52 @@
+@import "../components/variables";
+
+.navLink {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cart {
+    cursor: pointer;
+
+    span {
+        font-size: 12px;
+        border-radius: 2.75rem;
+        padding: 0 .3125rem;
+        text-align: center;
+        height: 1rem;
+        border: .125rem solid #fa2d4a;
+        color: #fff;
+        background-color: #fa2d4a;
+    }
+}
+
+.logout {
+    cursor: pointer;
+}
+
+.signUpButton {
+    font-weight: 500;
+    font-size: 14px;
+    border: solid thin #fa2d4a;
+    border-radius: 10px;
+    padding: 10px 0px;
+    text-align: center;
+    width: 140px;
+
+    span {
+        color: black;
+    }
+
+    &:hover {
+        border: solid thin #ed8c92;
+
+        span {
+            color: white;
+        }
+
+        background-image: linear-gradient(to right,
+            #fa2d4a 0%,
+            #ed8c92 100%,
+            #fa2d4a 100%);
+    }
+}

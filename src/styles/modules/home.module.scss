@@ -5,38 +5,6 @@
   font-weight: 600;
 }
 
-.navLink {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.signUpButton {
-  font-weight: 500;
-  font-size: 14px;
-  border: solid thin #fa2d4a;
-  border-radius: 10px;
-  padding: 10px 0px;
-  text-align: center;
-  width: 140px;
-
-  span {
-    color: black;
-  }
-
-  &:hover {
-    border: solid thin #ed8c92;
-
-    span {
-      color: white;
-    }
-
-    background-image: linear-gradient(to right,
-      #fa2d4a 0%,
-      #ed8c92 100%,
-      #fa2d4a 100%);
-  }
-}
-
 .giftDescription {
   font-size: 13px;
 }
@@ -66,7 +34,7 @@
   }
 }
 
-#collection {
+#wrapGrey {
   background: #eef1f6;
 
   .categoryGift {
@@ -224,7 +192,6 @@
 
   .viewAll {
     a {
-      font-weight: 500;
       width: 130px;
       font-size: 15px;
       text-decoration: none;
@@ -241,6 +208,13 @@
       box-shadow: 0px 17px 25px #f0c7cf;
       border-radius: 10px;
       display: block;
+
+      &:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+      }
     }
   }
 
@@ -301,7 +275,6 @@
       }
 
       a {
-        font-weight: 500;
         width: 130px;
         font-size: 15px;
         text-decoration: none;
@@ -309,7 +282,7 @@
             #fa2d4a 0%,
             #ed8c92 51%,
             #fa2d4a 100%);
-        padding: 20px;
+        padding: 15px;
         text-align: center;
         text-transform: uppercase;
         transition: 0.5s;
@@ -318,6 +291,13 @@
         box-shadow: 0px 17px 25px #f0c7cf;
         border-radius: 10px;
         display: block;
+
+        &:hover {
+          background-position: right center;
+          /* change the direction of the change here */
+          color: #fff;
+          text-decoration: none;
+        }
       }
 
       iframe {
@@ -370,36 +350,6 @@
             #ed8c92 100%,
             #fa2d4a 100%);
         }
-      }
-    }
-  }
-  #subscribe {
-    margin-top: 150px;
-    background-color: white;
-    border-radius: 15px;
-    & > div {
-      padding: 70px;
-      p {
-        line-height: 2;
-        font-size: 14px;
-      }
-      a {
-        font-weight: 500;
-        font-size: 14px;
-        text-decoration: none;
-        background-image: linear-gradient(to right,
-            #fa2d4a 0%,
-            #ed8c92 51%,
-            #fa2d4a 100%);
-        padding: 20px;
-        text-align: center;
-        text-transform: uppercase;
-        transition: 0.5s;
-        background-size: 200% auto;
-        color: white;
-        box-shadow: 0px 17px 25px #f0c7cf;
-        border-radius: 10px;
-        display: block;
       }
     }
   }

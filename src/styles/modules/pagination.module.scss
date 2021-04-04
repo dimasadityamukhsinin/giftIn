@@ -1,0 +1,32 @@
+@import "../components/variables";
+
+#pagination {
+    ul {
+        li {
+            button {
+                background: white;
+                border: solid thin #bfc2c7;
+                border-radius: 8px;
+                padding: 10px 20px;
+                color: black;
+
+                @include respond-to("sm") {
+                    padding: 10px 15px;
+                    font-size: 11px;
+                }
+
+                &:hover {
+                    border: solid thin #150e4b;
+                    color: white;
+                    background: #150e4b;
+                }
+
+                &:global(.active) {
+                    border: none;
+                    color: white;
+                    background: #150e4b;
+                }
+            }
+        }
+    }
+}

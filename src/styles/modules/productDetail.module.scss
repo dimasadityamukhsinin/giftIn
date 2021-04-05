@@ -1,0 +1,88 @@
+@import "../components/variables";
+
+#productDetail {
+    background: #eef1f6;
+    padding: 100px 0px;
+
+    &>div {
+        &>div {
+            background: white;
+
+            &>div:last-child {
+                h4 {
+                    padding-bottom: 12px;
+                    border-bottom: solid thin #bcbec2;
+                }
+
+                &>p {
+                    padding: 14px 0px;
+                    border-bottom: solid thin #bcbec2;
+                    border-top: solid thin #bcbec2;
+                }
+
+                &>div:nth-child(2) {
+                    span {
+                        font-size: 14px;
+                    }
+                }
+
+                &>span:nth-child(3) {
+                    font-size: 28px;
+                    font-weight: 500;
+                    background: #eef1f6;
+                }
+
+                &>div:last-child {
+                    &>div:first-child {
+                        span {
+                            font-size: 23px;
+                            font-weight: 500;
+                        }
+                    }
+
+                    &>div:nth-child(2) {
+                        input {
+                            height: 100%;
+                            width: 100%;
+                            outline: none;
+                            border: solid thin #bcbec2;
+                        }
+                    }
+
+                    &>div:last-child {
+
+                        button {
+                            width: 100%;
+                            background: none;
+                            outline: none;
+                            border: none;
+                            font-size: 15px;
+                            background-image: linear-gradient(to right,
+                                    #fa2d4a 0%,
+                                    #ed8c92 51%,
+                                    #fa2d4a 100%);
+                            padding: 12px 0px;
+                            transition: 0.5s;
+                            background-size: 200% auto;
+                            color: white;
+                            box-shadow: 0px 17px 25px #f0c7cf;
+                            border-radius: 10px;
+
+                            &:hover {
+                                background-position: right center;
+                                color: #fff;
+                                text-decoration: none;
+                            }
+
+                            span {
+                                width: 100%;
+                                text-align: center;
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

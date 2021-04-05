@@ -363,6 +363,13 @@ export const query = graphql`
         }
       }
     }
+    bookmark: file(relativePath: { eq: "bookmark.png" }) {
+      childImageSharp {
+        fixed(width: 20, height: 20) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
     gift: file(relativePath: { eq: "gift-boxes-white-background.jpg" }) {
       childImageSharp {
         fluid {

@@ -5,9 +5,9 @@ exports.onCreatePage = async ({page, actions}) =>{
   console.log('Page - ' + page.page);
   if(page.path.match(/^\/products/)){
       createPage({
-          path: "/products/page",
-          matchPath: "/products/page/:id",
-          component: path.resolve("src/pages/products/page.jsx")
+          path: "/products/detail",
+          matchPath: "/products/:slug",
+          component: path.resolve("src/templates/productDetail.jsx")
       })
   }
 }

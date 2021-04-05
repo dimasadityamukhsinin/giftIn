@@ -6,6 +6,7 @@ import * as styles from "../../styles/modules/productComponent.module.scss";
 
 const ProductComponent = ({ dataProduct, data }) => {
   const appContext = useAppContext();
+  console.log(dataProduct)
 
   const getCart = () => {
     const dataCheckout = JSON.parse(localStorage.getItem('dataCheckout'));
@@ -52,14 +53,6 @@ const ProductComponent = ({ dataProduct, data }) => {
     }
   };
 
-  const onGift = () => {
-    getCart();
-    const dataCheckout = JSON.parse(localStorage.getItem('dataCheckout'));
-    client.checkout.fetch(dataCheckout.id).then((checkout) => {
-      window.location.replace(checkout.webUrl);
-    });
-  }
-
   return (
     <div className="p-0" id={styles.productComponent}>
       <img
@@ -70,7 +63,7 @@ const ProductComponent = ({ dataProduct, data }) => {
       <div className="row m-0 px-3">
         <div className="col-7 d-flex flex-column p-0">
           <h4>{dataProduct.title}</h4>
-          <a href="/" className="col text-center mt-3" href="/">
+          <a href={`/products/${dataProduct.handle}`} className="col text-center mt-3">
             <span>GIFT NOW</span>
           </a>
         </div>

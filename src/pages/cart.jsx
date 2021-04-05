@@ -112,7 +112,7 @@ const Cart = ({ data }) => {
     const dataCheckout = JSON.parse(localStorage.getItem("dataCheckout"));
     if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
       client.checkout.fetch(dataCheckout.id).then((checkout) => {
-        window.location.replace(checkout.webUrl);
+        window.location.href = checkout.webUrl;
       });
     }
   };

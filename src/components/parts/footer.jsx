@@ -1,8 +1,37 @@
 import * as React from "react";
 import Img from "gatsby-image";
 import * as stylesFooter from "../../styles/modules/footer.module.scss";
+import { useStaticQuery, graphql } from "gatsby";
 
-const Footer = ({ data }) => {
+const Footer = () => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        icon: file(relativePath: { eq: "icon.png" }) {
+          childImageSharp {
+            fixed(width: 30, height: 30) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+        facebook: file(relativePath: { eq: "facebook.png" }) {
+          childImageSharp {
+            fixed(width: 30, height: 30) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+        twitter: file(relativePath: { eq: "twitter.png" }) {
+          childImageSharp {
+            fixed(width: 30, height: 30) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+      }
+    `
+  );
+
   return (
     <>
       <footer id={stylesFooter.footer}>

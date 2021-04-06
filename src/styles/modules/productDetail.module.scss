@@ -14,12 +14,6 @@
                     border-bottom: solid thin #bcbec2;
                 }
 
-                &>p {
-                    padding: 20px 0px;
-                    border-bottom: solid thin #bcbec2;
-                    border-top: solid thin #bcbec2;
-                }
-
                 &>div:nth-child(2) {
                     span {
                         font-size: 14px;
@@ -30,6 +24,12 @@
                     font-size: 28px;
                     font-weight: 500;
                     background: #eef1f6;
+                }
+
+                &>div:nth-child(4) {
+                    padding: 20px 0px;
+                    border-bottom: solid thin #bcbec2;
+                    border-top: solid thin #bcbec2;
                 }
 
                 &>div:last-child {

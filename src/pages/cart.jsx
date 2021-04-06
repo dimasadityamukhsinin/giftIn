@@ -129,7 +129,7 @@ const Cart = ({ data }) => {
           <meta charSet="utf-8" />
           <title>Cart</title>
         </Helmet>
-        <Navigation data={data} />
+        <Navigation />
         <div className="container-fluid mt-4" id={styles.cart}>
           <div className="container">
             <h2 className="text-center pb-5 m-0">Gift Cart</h2>
@@ -251,49 +251,9 @@ const Cart = ({ data }) => {
           </div>
         </div>
       </main>
-      <Footer data={data} />
+      <Footer />
     </>
   );
 };
-
-export const query = graphql`
-  query {
-    icon: file(relativePath: { eq: "icon.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    cart: file(relativePath: { eq: "shopping-cart.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    exit: file(relativePath: { eq: "exit.png" }) {
-      childImageSharp {
-        fixed(width: 20, height: 20) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    facebook: file(relativePath: { eq: "facebook.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    twitter: file(relativePath: { eq: "twitter.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-  }
-`;
 
 export default Cart;

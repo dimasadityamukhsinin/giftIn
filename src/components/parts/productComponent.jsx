@@ -3,14 +3,27 @@ import Img from "gatsby-image";
 import client from "../shopify";
 import { useAppContext } from "../../context/store";
 import * as styles from "../../styles/modules/productComponent.module.scss";
+import { useStaticQuery, graphql } from "gatsby";
 
-const ProductComponent = ({ dataProduct, data }) => {
+const ProductComponent = ({ dataProduct }) => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        bookmark: file(relativePath: { eq: "bookmark.png" }) {
+          childImageSharp {
+            fixed(width: 20, height: 20) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+      }
+    `
+  );
   const appContext = useAppContext();
-  console.log(dataProduct)
 
   const getCart = () => {
-    const dataCheckout = JSON.parse(localStorage.getItem('dataCheckout'));
-    if (dataCheckout && dataCheckout.email === localStorage.getItem('email')) {
+    const dataCheckout = JSON.parse(localStorage.getItem("dataCheckout"));
+    if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
       const lineItemsToAdd = [
         {
           variantId: dataProduct.variants[0].id,
@@ -63,7 +76,10 @@ const ProductComponent = ({ dataProduct, data }) => {
       <div className="row m-0 px-3">
         <div className="col-7 d-flex flex-column p-0">
           <h4>{dataProduct.title}</h4>
-          <a href={`/products/${dataProduct.handle}`} className="col text-center mt-3">
+          <a
+            href={`/products/${dataProduct.handle}`}
+            className="col text-center mt-3"
+          >
             <span>GIFT NOW</span>
           </a>
         </div>

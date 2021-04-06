@@ -8,14 +8,19 @@ import Footer from "../components/parts/footer";
 import ProductComponent from "../components/parts/productComponent";
 import LoadingProduct from "../components/parts/loadingProduct";
 import client from "../components/shopify";
+import { Link } from "gatsby";
 
 // markup
 const IndexPage = ({ data }) => {
   const [product, setProduct] = React.useState();
+  const [category, setCategory] = React.useState();
 
   React.useEffect(() => {
     client.product.fetchAll().then((products) => {
-      setProduct(products.slice(0, 8))
+      setProduct(products.slice(0, 8));
+    });
+    client.collection.fetchAll().then((collections) => {
+      setCategory(collections);
     });
   }, []);
   return (
@@ -25,7 +30,7 @@ const IndexPage = ({ data }) => {
           <meta charSet="utf-8" />
           <title>GiftIn</title>
         </Helmet>
-        <Navigation active="home" data={data} />
+        <Navigation active="home"/>
         <div className="container mb-5">
           <div className="row justify-content-between mt-3">
             <div className="d-flex justify-content-center flex-column col-md-6">
@@ -55,74 +60,31 @@ const IndexPage = ({ data }) => {
           <div className="container">
             <div className="row">
               <div className="col">
-                <div className={`${styles.categoryGift} row`}>
-                  <a
-                    className="col-2 d-flex justify-content-center align-items-end pb-3"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=724&q=80')",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                    href="/"
-                  >
-                    <span className="text-white">Birthday Gift's</span>
-                  </a>
-                  <a
-                    className="col-2 d-flex justify-content-center align-items-end pb-3"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1608755728617-aefab37d2edd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                    href="/"
-                  >
-                    <span className="text-white">Anniversary</span>
-                  </a>
-                  <a
-                    className="col-2 d-flex justify-content-center align-items-end pb-3"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80')",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                    href="/"
-                  >
-                    <span className="text-white">Special Gift</span>
-                  </a>
-                  <a
-                    className="col-2 d-flex justify-content-center align-items-end pb-3"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1607082349566-187342175e2f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                    href="/"
-                  >
-                    <span className="text-white">50% Off</span>
-                  </a>
-                </div>
                 <div
                   className="row justify-content-center mb-5"
                   id={styles.popularGift}
                 >
                   <h3 className="text-center mb-5">Popular Gift Collection</h3>
                   <div className="container justify-content-center">
-                    <a className="col-2 text-center active" href="/">
-                      <span>New Gift's</span>
-                    </a>
-                    <a className="col-2 text-center" href="/">
-                      <span>Top Rated Gift's</span>
-                    </a>
-                    <a className="col-2 text-center" href="/">
-                      <span>Trending Gift's</span>
-                    </a>
-                    <a className="col-2 text-center" href="/">
-                      <span>Best Offer Gift's</span>
-                    </a>
+                    {category ? (
+                      <>
+                        <Link
+                          className="col-2 text-center active"
+                          to="/category/new-gifts"
+                        >
+                          <span>New Gift's</span>
+                        </Link>
+                        {category.map((data, id) => (
+                          <Link
+                            className="col-2 text-center"
+                            href={`/products/category/${data.handle}`}
+                            key={id}
+                          >
+                            <span>{data.title}</span>
+                          </Link>
+                        ))}
+                      </>
+                    ) : null}
                   </div>
                 </div>
                 <div className="row mb-5" id={styles.gift}>
@@ -131,7 +93,6 @@ const IndexPage = ({ data }) => {
                       <ProductComponent
                         key={id}
                         dataProduct={element}
-                        data={data}
                       />
                     ))
                   ) : (
@@ -141,9 +102,9 @@ const IndexPage = ({ data }) => {
                 <div
                   className={`${styles.viewAll} row justify-content-center mb-5`}
                 >
-                  <a className="text-center" href="/products">
+                  <Link className="text-center" href="/products">
                     <span>VIEW ALL</span>
-                  </a>
+                  </Link>
                 </div>
                 <div className="row mb-5" id={styles.specialize}>
                   <h2 className="text-center mb-4">
@@ -286,27 +247,13 @@ const IndexPage = ({ data }) => {
           </div>
         </div>
       </main>
-      <Footer data={data} />
+      <Footer />
     </>
   );
 };
 
 export const query = graphql`
   query {
-    icon: file(relativePath: { eq: "icon.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    iconBlack: file(relativePath: { eq: "icon_black.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
     iconCake: file(relativePath: { eq: "cake.png" }) {
       childImageSharp {
         fixed(width: 50, height: 50) {
@@ -331,41 +278,6 @@ export const query = graphql`
     iconLoveGift: file(relativePath: { eq: "heart-box.png" }) {
       childImageSharp {
         fixed(width: 50, height: 50) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    facebook: file(relativePath: { eq: "facebook.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    twitter: file(relativePath: { eq: "twitter.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    cart: file(relativePath: { eq: "shopping-cart.png" }) {
-      childImageSharp {
-        fixed(width: 30, height: 30) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    exit: file(relativePath: { eq: "exit.png" }) {
-      childImageSharp {
-        fixed(width: 20, height: 20) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-    bookmark: file(relativePath: { eq: "bookmark.png" }) {
-      childImageSharp {
-        fixed(width: 20, height: 20) {
           ...GatsbyImageSharpFixed
         }
       }

@@ -4,8 +4,36 @@ import * as styles from "../../styles/modules/nav.module.scss";
 import firebase from "gatsby-plugin-firebase";
 import client from "../shopify";
 import { useAppContext } from "../../context/store";
+import { useStaticQuery, graphql } from "gatsby";
 
-const Navigation = ({ active, data }) => {
+const Navigation = ({ active }) => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        icon: file(relativePath: { eq: "icon.png" }) {
+          childImageSharp {
+            fixed(width: 30, height: 30) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+        cart: file(relativePath: { eq: "shopping-cart.png" }) {
+          childImageSharp {
+            fixed(width: 30, height: 30) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+        exit: file(relativePath: { eq: "exit.png" }) {
+          childImageSharp {
+            fixed(width: 20, height: 20) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
+      }
+    `
+  );
   const [login, setLogin] = React.useState(false);
   const appContext = useAppContext();
 

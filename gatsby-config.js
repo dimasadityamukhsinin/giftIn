@@ -33,9 +33,9 @@ module.exports = {
           storageBucket: "gitftin.appspot.com",
           messagingSenderId: "1054148980050",
           appId: "1:1054148980050:web:f58b3f36b1768a8da8de8b",
-          measurementId: "G-YM5KG1M4DP"
-        }
-      }
+          measurementId: "G-YM5KG1M4DP",
+        },
+      },
     }
   ],
 };

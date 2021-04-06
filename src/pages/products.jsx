@@ -8,7 +8,7 @@ import LoadingProduct from "../components/parts/loadingProduct";
 import Pagination from "../components/parts/Pagination";
 import ProductComponent from "../components/parts/productComponent";
 
-const ProductPage = ({ data }) => {
+const ProductPage = () => {
   const [currentProduct, setCurrentPage] = React.useState(1);
   const [currentProducts, setCurrentProducts] = React.useState();
   const [productsPerPage] = React.useState(8);

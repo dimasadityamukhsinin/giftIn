@@ -2,7 +2,6 @@ import * as React from "react";
 import { Helmet } from "react-helmet";
 import Navigation from "../components/parts/navigation";
 import * as styles from "../styles/modules/cart.module.scss";
-import { graphql } from "gatsby";
 import Footer from "../components/parts/footer";
 import client from "../components/shopify";
 import Close from "../components/icons/close";
@@ -10,9 +9,8 @@ import Swal from "sweetalert2";
 import ReactLoading from "react-loading";
 import { useAppContext } from "../context/store";
 
-const Cart = ({ data }) => {
+const Cart = () => {
   const [dataCart, setCart] = React.useState(null);
-  const [quantityCart, setQuantityCart] = React.useState(null);
   const appContext = useAppContext();
 
   const fetchCart = () => {
@@ -119,7 +117,6 @@ const Cart = ({ data }) => {
 
   React.useEffect(() => {
     fetchCart();
-    setQuantityCart(appContext.quantity);
   }, []);
 
   return (

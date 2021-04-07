@@ -3,7 +3,7 @@ import Img from "gatsby-image";
 import client from "../shopify";
 import { useAppContext } from "../../context/store";
 import * as styles from "../../styles/modules/productComponent.module.scss";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 
 const ProductComponent = ({ dataProduct }) => {
   const data = useStaticQuery(
@@ -69,19 +69,19 @@ const ProductComponent = ({ dataProduct }) => {
   return (
     <div className="p-0" id={styles.productComponent}>
       <img
-        src={dataProduct.images[0].src}
-        alt={dataProduct.images[0].altText}
+        src={dataProduct.images[0].originalSrc}
+        alt={dataProduct.title}
         height="200"
       />
       <div className="row m-0 px-3">
         <div className="col-7 d-flex flex-column p-0">
           <h4>{dataProduct.title}</h4>
-          <a
-            href={`/products/${dataProduct.handle}`}
+          <Link
+            to={`/products/${dataProduct.handle}`}
             className="col text-center mt-3"
           >
             <span>GIFT NOW</span>
-          </a>
+          </Link>
         </div>
         <div className="col d-flex flex-column justify-content-between align-items-end p-0">
           <button onClick={() => getCart()}>

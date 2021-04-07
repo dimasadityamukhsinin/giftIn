@@ -8,7 +8,7 @@ const Pagination = ({
   currentProduct,
 }) => {
   const pageNumbers = [];
-  const [active, setActive] = useState(currentProduct);
+  const [active] = useState(currentProduct);
 
   for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
     pageNumbers.push(i);

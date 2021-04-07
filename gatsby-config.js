@@ -36,6 +36,14 @@ module.exports = {
           measurementId: "G-YM5KG1M4DP",
         },
       },
-    }
+    },
+    {
+      resolve: "gatsby-source-shopify",
+      options: {
+        shopName: "bacalahshop.myshopify.com",
+        accessToken: "981ecb8da5a55216f463b62e9833b806",
+        downloadImages: false
+      },
+    },
   ],
 };

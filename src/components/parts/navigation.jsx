@@ -4,7 +4,7 @@ import * as styles from "../../styles/modules/nav.module.scss";
 import firebase from "gatsby-plugin-firebase";
 import client from "../shopify";
 import { useAppContext } from "../../context/store";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 
 const Navigation = ({ active }) => {
   const data = useStaticQuery(
@@ -80,14 +80,14 @@ const Navigation = ({ active }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light">
       <div className="container-lg py-3">
-        <a className="navbar-brand fw-bold" href="/">
+        <Link className="navbar-brand fw-bold" to="/">
           <Img
             fixed={data.icon.childImageSharp.fixed}
             className="me-1"
             alt="GiftIn"
           />
           GiftIn
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -102,52 +102,52 @@ const Navigation = ({ active }) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a
+              <Link
                 className={`nav-link ${active === "home" ? "active" : ""} ${
                   styles.navLink
                 }`}
-                href="/"
+                to="/"
               >
                 HOME
-              </a>
+              </Link>
             </li>
             <li className="nav-item px-3">
-              <a
+              <Link
                 className={`nav-link ${active === "products" ? "active" : ""} ${
                   styles.navLink
                 }`}
-                href="/products"
+                to="/products"
               >
                 PRODUCTS
-              </a>
+              </Link>
             </li>
             <li className="nav-item px-3">
-              <a
+              <Link
                 className={`nav-link ${active === "services" ? "active" : ""} ${
                   styles.navLink
                 }`}
-                href="/"
+                to="/"
               >
                 SERVICES
-              </a>
+              </Link>
             </li>
             <li className="nav-item px-3">
-              <a
+              <Link
                 className={`nav-link ${
                   active === "contactus" ? "active" : ""
                 } ${styles.navLink}`}
-                href="/"
+                to="/"
               >
                 CONTACT US
-              </a>
+              </Link>
             </li>
           </ul>
           {login ? (
             <>
-              <a href="/cart" className={`me-3 ${styles.cart}`}>
+              <Link to="/cart" className={`me-3 ${styles.cart}`}>
                 <Img fixed={data.cart.childImageSharp.fixed} alt="Cart" />
                 {appContext.quantity ? <span>{appContext.quantity}</span> : null}
-              </a>
+              </Link>
               <a
                 onClick={handleLogout}
                 className={`align-self-end ${styles.logout}`}
@@ -156,12 +156,12 @@ const Navigation = ({ active }) => {
               </a>
             </>
           ) : (
-            <a
+            <Link
               className={`text-center ${styles.signUpButton}`}
-              href="/register"
+              to="/register"
             >
               <span>SIGN UP FREE</span>
-            </a>
+            </Link>
           )}
         </div>
       </div>

@@ -7,22 +7,13 @@ import Navigation from "../components/parts/navigation";
 import Footer from "../components/parts/footer";
 import ProductComponent from "../components/parts/productComponent";
 import LoadingProduct from "../components/parts/loadingProduct";
-import client from "../components/shopify";
 import { Link } from "gatsby";
 
 // markup
 const IndexPage = ({ data }) => {
-  const [product, setProduct] = React.useState();
-  const [category, setCategory] = React.useState();
+  const [product] = React.useState(data.shopifyProduct.edges);
+  const [category] = React.useState(data.shopifyCategory.edges);
 
-  React.useEffect(() => {
-    client.product.fetchAll().then((products) => {
-      setProduct(products.slice(0, 8));
-    });
-    client.collection.fetchAll().then((collections) => {
-      setCategory(collections);
-    });
-  }, []);
   return (
     <>
       <main>
@@ -30,7 +21,7 @@ const IndexPage = ({ data }) => {
           <meta charSet="utf-8" />
           <title>GiftIn</title>
         </Helmet>
-        <Navigation active="home"/>
+        <Navigation active="home" />
         <div className="container mb-5">
           <div className="row justify-content-between mt-3">
             <div className="d-flex justify-content-center flex-column col-md-6">
@@ -43,12 +34,12 @@ const IndexPage = ({ data }) => {
                   Browse through some of the largest collection of gifts to
                   brighton your day
                 </p>
-                <a
+                <Link
                   className={styles.giftButton + " w-50 mt-5"}
-                  href="/products"
+                  to="/products"
                 >
                   CHOOSE A GIFT
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-md-6">
@@ -66,34 +57,27 @@ const IndexPage = ({ data }) => {
                 >
                   <h3 className="text-center mb-5">Popular Gift Collection</h3>
                   <div className="container justify-content-center">
-                    {category ? (
-                      <>
-                        <Link
-                          className="col-2 text-center active"
-                          to="/category/new-gifts"
-                        >
-                          <span>New Gift's</span>
-                        </Link>
-                        {category.map((data, id) => (
-                          <Link
-                            className="col-2 text-center"
-                            href={`/products/category/${data.handle}`}
-                            key={id}
-                          >
-                            <span>{data.title}</span>
-                          </Link>
-                        ))}
-                      </>
-                    ) : null}
+                    <Link
+                      className="col-2 text-center active"
+                      to="/products"
+                    >
+                      <span>New Gift's</span>
+                    </Link>
+                    {category.map((data, id) => (
+                      <Link
+                        className="col-2 text-center"
+                        to={`/products/category/${data.node.handle}`}
+                        key={id}
+                      >
+                        <span>{data.node.title}</span>
+                      </Link>
+                    ))}
                   </div>
                 </div>
                 <div className="row mb-5" id={styles.gift}>
                   {product ? (
                     product.map((element, id) => (
-                      <ProductComponent
-                        key={id}
-                        dataProduct={element}
-                      />
+                      <ProductComponent key={id} dataProduct={element.node} />
                     ))
                   ) : (
                     <LoadingProduct />
@@ -102,7 +86,7 @@ const IndexPage = ({ data }) => {
                 <div
                   className={`${styles.viewAll} row justify-content-center mb-5`}
                 >
-                  <Link className="text-center" href="/products">
+                  <Link className="text-center" to="/products">
                     <span>VIEW ALL</span>
                   </Link>
                 </div>
@@ -176,9 +160,9 @@ const IndexPage = ({ data }) => {
                       fringilla. Integer eu mi sagittis, tincidunt nisl quis,
                       iaculis felis.
                     </p>
-                    <a className="text-center mt-5" href="/">
+                    <Link className="text-center mt-5" to="/">
                       <span>ABOUT US</span>
-                    </a>
+                    </Link>
                   </div>
                   <div className="col">
                     <iframe
@@ -209,9 +193,9 @@ const IndexPage = ({ data }) => {
                       typesetting industry. <br />
                       Industry's standard dummy text ever since the 1500s.
                     </p>
-                    <a className="col text-center d-block mt-4" href="/">
+                    <Link className="col text-center d-block mt-4" to="/">
                       <span>READ MORE</span>
-                    </a>
+                    </Link>
                   </div>
                   <div className="col me-3 py-5 px-4">
                     <h5>
@@ -223,9 +207,9 @@ const IndexPage = ({ data }) => {
                       typesetting industry. <br />
                       Industry's standard dummy text ever since the 1500s.
                     </p>
-                    <a className="col text-center d-block mt-4" href="/">
+                    <Link className="col text-center d-block mt-4" to="/">
                       <span>READ MORE</span>
-                    </a>
+                    </Link>
                   </div>
                   <div className="col py-5 px-4">
                     <h5>
@@ -237,9 +221,9 @@ const IndexPage = ({ data }) => {
                       typesetting industry. <br />
                       Industry's standard dummy text ever since the 1500s.
                     </p>
-                    <a className="col text-center d-block mt-4" href="/">
+                    <Link className="col text-center d-block mt-4" to="/">
                       <span>READ MORE</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -286,6 +270,35 @@ export const query = graphql`
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    shopifyProduct: allShopifyProduct {
+      edges {
+        node {
+          id
+          availableForSale
+          createdAt
+          descriptionHtml
+          handle
+          images {
+            id
+            originalSrc
+          }
+          productType
+          title
+          variants {
+            price
+            id
+          }
+        }
+      }
+    }
+    shopifyCategory: allShopifyCollection {
+      edges {
+        node {
+          title
+          handle
         }
       }
     }

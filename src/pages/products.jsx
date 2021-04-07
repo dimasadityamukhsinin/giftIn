@@ -16,12 +16,19 @@ const ProductPage = ({ data }) => {
 
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
-  const indexOfLastProduct = currentProduct * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  setCurrentProducts(
-    data.shopifyProduct ? data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct) : []
-  );
+
+  React.useEffect(() => {
+    const indexOfLastProduct = currentProduct * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    setCurrentProducts(
+      data.shopifyProduct
+        ? data.shopifyProduct.edges.slice(
+            indexOfFirstProduct,
+            indexOfLastProduct
+          )
+        : []
+    );
+  }, []);
 
   return (
     <>
@@ -39,10 +46,7 @@ const ProductPage = ({ data }) => {
             >
               <h3 className="text-center mb-5">Popular Gift Collection</h3>
               <div className="container justify-content-center">
-                <Link
-                  className="col-2 text-center active"
-                  to="/products"
-                >
+                <Link className="col-2 text-center active" to="/products">
                   <span>New Gift's</span>
                 </Link>
                 {category.map((data, id) => (

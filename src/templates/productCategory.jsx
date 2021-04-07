@@ -17,11 +17,24 @@ const ProductCategory = ({ data }) => {
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const indexOfLastProduct = currentProduct * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  setCurrentProducts(
-    data.shopifyProduct ? data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct) : []
-  );
+  React.useEffect(() => {
+    const indexOfLastProduct = currentProduct * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    console.log(
+      data.shopifyCollection.products.slice(
+        indexOfFirstProduct,
+        indexOfLastProduct
+      )
+    );
+    setCurrentProducts(
+      data.shopifyCollection
+        ? data.shopifyCollection.products.slice(
+            indexOfFirstProduct,
+            indexOfLastProduct
+          )
+        : []
+    );
+  }, []);
 
   return (
     <>
@@ -39,15 +52,16 @@ const ProductCategory = ({ data }) => {
             >
               <h3 className="text-center mb-5">Popular Gift Collection</h3>
               <div className="container justify-content-center">
-                <Link
-                  className="col-2 text-center"
-                  to="/products"
-                >
+                <Link className="col-2 text-center" to="/products">
                   <span>New Gift's</span>
                 </Link>
                 {category.map((el, id) => (
                   <Link
-                    className={`col-2 text-center ${data.shopifyCollection.handle === el.node.handle ? `active` : ``}`}
+                    className={`col-2 text-center ${
+                      data.shopifyCollection.handle === el.node.handle
+                        ? `active`
+                        : ``
+                    }`}
                     to={`/products/category/${el.node.handle}`}
                     key={id}
                   >
@@ -82,8 +96,8 @@ const ProductCategory = ({ data }) => {
 };
 
 export const query = graphql`
-  query ShopyProductByCategory($category: String!){
-    shopifyCollection(handle: {eq: $category}) {
+  query ShopyProductByCategory($category: String!) {
+    shopifyCollection(handle: { eq: $category }) {
       handle
       products {
         id

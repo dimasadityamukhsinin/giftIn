@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import Navigation from "../components/parts/navigation";
 import Footer from "../components/parts/footer";
 import LoadingProduct from "../components/parts/loadingProduct";
-import Pagination from "../components/parts/Pagination";
+import Pagination from "../components/parts/pagination";
 import ProductComponent from "../components/parts/productComponent";
 import { graphql, Link } from "gatsby";
 
@@ -26,7 +26,11 @@ const ProductCategory = ({ data }) => {
         indexOfLastProduct
       )
     );
-    setCurrentProducts([]
+    setCurrentProducts([
+      data.shopifyCollection.products.slice(
+        indexOfFirstProduct,
+        indexOfLastProduct
+      )]
     );
   }, []);
 

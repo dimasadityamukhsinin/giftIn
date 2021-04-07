@@ -6,6 +6,7 @@ import * as styles from "../styles/modules/productDetail.module.scss";
 import parse from "html-react-parser";
 import { useAppContext } from "../context/store";
 import { graphql } from "gatsby";
+import Footer from "../components/parts/footer";
 
 const ProductDetail = ({ data }) => {
   const [product] = useState(data.shopifyProduct);
@@ -66,58 +67,61 @@ const ProductDetail = ({ data }) => {
   };
 
   return (
-    <main>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{product.title}</title>
-      </Helmet>
-      <Navigation active="products" />
-      <div className="container-fluid mt-4" id={styles.productDetail}>
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <img
-                src={product.images[0].originalSrc}
-                alt={product.images[0].title}
-              />
-            </div>
-            <div className="col p-4">
-              <h4>{product.title}</h4>
-              <div className="row">
-                <div className="col-3">
-                  <span>Type : {product.productType}</span>
-                </div>
-                <div className="col-3">
-                  <span>Weight : {product.variants[0].weight}Kg</span>
-                </div>
+    <>
+      <main>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{product.title}</title>
+        </Helmet>
+        <Navigation active="products" />
+        <div className="container-fluid mt-4" id={styles.productDetail}>
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <img
+                  src={product.images[0].originalSrc}
+                  alt={product.images[0].title}
+                />
               </div>
-              <span className="d-block p-4 my-4">
-                Rp.{product.variants[0].price}
-              </span>
-              <div className="mt-4">{parse(product.descriptionHtml)}</div>
-              <div className="row mt-2 align-items-center">
-                <div className="col-3">
-                  <span>Quantity</span>
+              <div className="col p-4">
+                <h4>{product.title}</h4>
+                <div className="row">
+                  <div className="col-3">
+                    <span>Type : {product.productType}</span>
+                  </div>
+                  <div className="col-3">
+                    <span>Weight : {product.variants[0].weight}Kg</span>
+                  </div>
                 </div>
-                <div className="col-2">
-                  <input
-                    type="text"
-                    className="text-center"
-                    value={cart}
-                    onChange={(e) => onChangeCart(e.target.value)}
-                  />
-                </div>
-                <div className="col-6">
-                  <button onClick={() => onCart()}>
-                    <span>ADD TO CART</span>
-                  </button>
+                <span className="d-block p-4 my-4">
+                  Rp.{product.variants[0].price}
+                </span>
+                <div className="mt-4">{parse(product.descriptionHtml)}</div>
+                <div className="row mt-2 align-items-center">
+                  <div className="col-3">
+                    <span>Quantity</span>
+                  </div>
+                  <div className="col-2">
+                    <input
+                      type="text"
+                      className="text-center"
+                      value={cart}
+                      onChange={(e) => onChangeCart(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <button onClick={() => onCart()}>
+                      <span>ADD TO CART</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 };
 

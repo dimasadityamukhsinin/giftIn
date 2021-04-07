@@ -20,8 +20,7 @@ const ProductPage = ({ data }) => {
   React.useEffect(() => {
     const indexOfLastProduct = currentProduct * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    setCurrentProducts(
-      data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct)
+    setCurrentProducts([]
     );
   }, []);
 

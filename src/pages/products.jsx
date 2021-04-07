@@ -16,14 +16,12 @@ const ProductPage = ({ data }) => {
 
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  React.useEffect(() => {
-    const indexOfLastProduct = currentProduct * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    setCurrentProducts(
-      data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct)
-    );
-  }, []);
+  
+  const indexOfLastProduct = currentProduct * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  setCurrentProducts(
+    data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct)
+  );
 
   return (
     <>

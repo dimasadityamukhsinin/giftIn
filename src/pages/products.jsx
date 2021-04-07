@@ -21,12 +21,7 @@ const ProductPage = ({ data }) => {
     const indexOfLastProduct = currentProduct * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     setCurrentProducts(
-      data.shopifyProduct
-        ? data.shopifyProduct.edges.slice(
-            indexOfFirstProduct,
-            indexOfLastProduct
-          )
-        : []
+      data.shopifyProduct.edges.slice(indexOfFirstProduct, indexOfLastProduct)
     );
   }, []);
 

@@ -27,12 +27,10 @@ const ProductCategory = ({ data }) => {
       )
     );
     setCurrentProducts(
-      data.shopifyCollection
-        ? data.shopifyCollection.products.slice(
-            indexOfFirstProduct,
-            indexOfLastProduct
-          )
-        : []
+      data.shopifyCollection.products.slice(
+        indexOfFirstProduct,
+        indexOfLastProduct
+      )
     );
   }, []);
 

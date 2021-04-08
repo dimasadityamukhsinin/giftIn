@@ -80,13 +80,14 @@ exports.handler = async (event, context) => {
                 price: variant.price,
               };
 
+              console.log(variantData)
+
               return client
                 .transaction()
                 .createIfNotExists(variantData)
                 .patch(variant.id.toString(), (patch) => patch.set(variantData))
                 .commit()
                 .then((response) => {
-                  console.log(variantData)
                   console.log(
                     `Successfully updated/patched Variant ${variant.id} in Sanity`
                   );

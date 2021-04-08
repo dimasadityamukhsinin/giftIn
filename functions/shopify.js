@@ -151,39 +151,11 @@ exports.handler = async (event, context) => {
             })
           )
             .then((result) => {
-              if (hasVariantsToSync) {
-                return client
-                  .transaction()
-                  .createIfNotExists(product)
-                  .patch(data.id.toString(), (patch) =>
-                    patch.set({
-                      variants: data.variants.map((variant) => ({
-                        _type: "reference",
-                        _ref: variant.id.toString(),
-                        _key: variant.id.toString(),
-                      })),
-                    })
-                  )
-                  .commit()
-                  .then((response) => {
-                    console.log(
-                      `Successfully added variant references to ${data.id} in Sanity`
-                    );
-                    return {
-                      statusCode: 200,
-                      body: JSON.stringify(response),
-                    };
-                  })
-                  .catch((error) => {
-                    console.error("Sanity error:", error);
-                    return error;
-                  });
-              } else {
+              console.log(result)
                 return {
                   statusCode: 200,
-                  body: JSON.stringify(res),
+                  body: JSON.stringify(result),
                 };
-              }
             })
             .catch((error) => {
               console.error("Sanity error:", error);

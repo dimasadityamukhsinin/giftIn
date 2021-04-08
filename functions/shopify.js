@@ -116,7 +116,7 @@ exports.handler = async (event, context) => {
             }
           })
         })
-        console.log(data.variants)
+        console.log(data.variants.length)
 
         if (data.variants.length >= 1) {
           hasVariantsToSync = true;

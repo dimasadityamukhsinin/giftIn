@@ -2,13 +2,13 @@ const sanityClient = require("@sanity/client");
 
 const {
   SANITY_API_TOKEN,
-  GATSBY_SANITY_PROJECT_ID,
-  GATSBY_SANITY_DATASET,
+  SANITY_PROJECT_ID,
+  SANITY_DATASET,
 } = process.env;
 
 const client = sanityClient({
-  projectId: GATSBY_SANITY_PROJECT_ID,
-  dataset: GATSBY_SANITY_DATASET,
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
   token: SANITY_API_TOKEN,
   useCdn: true,
 });

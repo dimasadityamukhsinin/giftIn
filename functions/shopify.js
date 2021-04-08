@@ -105,7 +105,7 @@ exports.handler = async (event, context) => {
             if (!active) {
               client
               .patch(cv._id, (patch) => patch
-              .set({ wasDeleted: true }))
+              .set({ deleted: true }))
               .commit()
               .then((deletedObject) => {
                 console.log(`successfully marked variant ${data.id} as 'deleted'`);

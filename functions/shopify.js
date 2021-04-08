@@ -106,7 +106,7 @@ exports.handler = async (event, context) => {
             console.log(active);
             if (!active) {
               client
-              .patch(cv.id.toString())
+              .patch(cv._id.toString())
               .set({ deleted: true })
               .commit()
               .then((deletedObject) => {

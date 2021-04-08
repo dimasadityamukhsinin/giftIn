@@ -74,7 +74,7 @@ exports.handler = async (event, context) => {
                 _id: variant.id.toString(),
                 productId: data.id,
                 variantId: variant.id,
-                title: data.title,
+                productTitle: data.title,
                 variantTitle: variant.title,
                 sku: variant.sku,
                 price: variant.price,

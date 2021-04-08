@@ -74,7 +74,7 @@ exports.handler = async (event, context) => {
         }));
 
         // Define productVariant documents
-        const productVariants = variants
+        const productVariants = data.variants
           .sort((a, b) => (a.id > b.id ? 1 : -1))
           .map((variant) => ({
             _type: 'productVariant',

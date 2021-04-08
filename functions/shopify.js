@@ -93,27 +93,28 @@ exports.handler = async (event, context) => {
         })
 
         // grab current variants
-        const currentVariants = await sanity.fetch(
+        sanity.fetch(
           `*[_type == "productVariant" && productId == ${data.id}]{
             _id
           }`
         )
-
-        // mark deleted variants
-        currentVariants.forEach((cv) => {
-          const active = productVariants.some((v) => v._id === cv._id)
-          if (!active) {
-            client
-            .patch(cv._id, (patch) => patch
-            .set({ wasDeleted: true }))
-            .commit()
-            .then((deletedObject) => {
-              console.log(`successfully marked ${data.id} as 'deleted'`);
-            })
-            .catch((error) => {
-              console.error(`Sanity error:`, error);
-            });
-          }
+        .then((currentVariants) => {
+          // mark deleted variants
+          currentVariants.forEach((cv) => {
+            const active = productVariants.some((v) => v._id === cv._id)
+            if (!active) {
+              client
+              .patch(cv._id, (patch) => patch
+              .set({ wasDeleted: true }))
+              .commit()
+              .then((deletedObject) => {
+                console.log(`successfully marked ${data.id} as 'deleted'`);
+              })
+              .catch((error) => {
+                console.error(`Sanity error:`, error);
+              });
+            }
+          })
         })
 
         if (data.variants.length > 1) {

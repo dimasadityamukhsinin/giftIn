@@ -74,7 +74,7 @@ exports.handler = async (event, context) => {
                 _id: variant.id.toString(),
                 productId: data.id,
                 variantId: variant.id,
-                title: data.title,
+                productTitle: data.title,
                 variantTitle: variant.title,
                 sku: variant.sku,
                 price: variant.price,
@@ -86,6 +86,7 @@ exports.handler = async (event, context) => {
                 .patch(variant.id.toString(), (patch) => patch.set(variantData))
                 .commit()
                 .then((response) => {
+                  console.log(response)
                   console.log(
                     `Successfully updated/patched Variant ${variant.id} in Sanity`
                   );

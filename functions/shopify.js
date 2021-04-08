@@ -64,7 +64,7 @@ exports.handler = async (event, context) => {
           `Successfully updated/patched Product ${data.id} in Sanity`
         );
 
-        const productVariantFields = data.variants.map((data) => ({
+        const productVariantFields = data.variants.map((variant) => ({
           productId: data.id,
           variantId: variant.id,
           productTitle: data.title,

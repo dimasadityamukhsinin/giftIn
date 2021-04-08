@@ -117,7 +117,7 @@ exports.handler = async (event, context) => {
           })
         })
 
-        if (data.variants.length > 1) {
+        if (data.variants.length >= 1) {
           hasVariantsToSync = true;
 
           return Promise.all(

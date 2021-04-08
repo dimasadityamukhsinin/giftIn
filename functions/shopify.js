@@ -81,6 +81,17 @@ exports.handler = async (event, context) => {
             _id: variant.id.toString(),
           }))
 
+        // create variant if doesn't exist & patch (update) variant with core shopify data
+        productVariants.forEach((variant, i) => {
+          client
+          .transaction()
+          .createIfNotExists(variant)
+          .patch(variant._id, (patch) => patch.set(productVariantFields[i]))
+          .patch(variant._id, (patch) =>
+            patch.setIfMissing({ title: productVariantFields[i].variantTitle })
+          )
+        })
+
         // grab current variants
         client.fetch(
           `*[_type == "productVariant" && productId == ${data.id}]{
@@ -107,7 +118,7 @@ exports.handler = async (event, context) => {
         })
         console.log(data.variants.length)
 
-        if (data.variants.length >= 1) {
+        if (data.variants.length > 1) {
           hasVariantsToSync = true;
 
           return Promise.all(

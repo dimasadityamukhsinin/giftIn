@@ -52,6 +52,7 @@ exports.handler = async (event, context) => {
         _type: "slug",
         current: data.handle,
       },
+      mainImage: data.images[0].src
     };
 
     return client

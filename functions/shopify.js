@@ -64,6 +64,58 @@ exports.handler = async (event, context) => {
           `Successfully updated/patched Product ${data.id} in Sanity`
         );
 
+        const productVariantFields = data.variants.map((data) => ({
+          productId: data.id,
+          variantId: variant.id,
+          productTitle: data.title,
+          variantTitle: variant.title,
+          sku: variant.sku,
+          price: variant.price,
+        }));
+
+        // Define productVariant documents
+        const productVariants = variants
+          .sort((a, b) => (a.id > b.id ? 1 : -1))
+          .map((variant) => ({
+            _type: 'productVariant',
+            _id: variant.id.toString(),
+          }))
+
+        // create variant if doesn't exist & patch (update) variant with core shopify data
+        productVariants.forEach((variant, i) => {
+          client
+          .transaction()
+          .createIfNotExists(variant)
+          .patch(variant._id, (patch) => patch.set(productVariantFields[i]))
+          .patch(variant._id, (patch) =>
+            patch.setIfMissing({ title: productVariantFields[i].variantTitle })
+          )
+        })
+
+        // grab current variants
+        const currentVariants = await sanity.fetch(
+          `*[_type == "productVariant" && productId == ${data.id}]{
+            _id
+          }`
+        )
+
+        // mark deleted variants
+        currentVariants.forEach((cv) => {
+          const active = productVariants.some((v) => v._id === cv._id)
+          if (!active) {
+            client
+            .patch(cv._id, (patch) => patch
+            .set({ wasDeleted: true }))
+            .commit()
+            .then((deletedObject) => {
+              console.log(`successfully marked ${data.id} as 'deleted'`);
+            })
+            .catch((error) => {
+              console.error(`Sanity error:`, error);
+            });
+          }
+        })
+
         if (data.variants.length > 1) {
           hasVariantsToSync = true;
 
@@ -79,8 +131,6 @@ exports.handler = async (event, context) => {
                 sku: variant.sku,
                 price: variant.price,
               };
-
-              console.log(variantData)
 
               return client
                 .transaction()

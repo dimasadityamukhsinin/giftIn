@@ -93,7 +93,7 @@ exports.handler = async (event, context) => {
         })
 
         // grab current variants
-        sanity.fetch(
+        client.fetch(
           `*[_type == "productVariant" && productId == ${data.id}]{
             _id
           }`

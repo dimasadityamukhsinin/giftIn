@@ -108,6 +108,7 @@ exports.handler = async (event, context) => {
                   .patch(cv._id, (patch) => patch.set({ deleted: true }))
                   .commit()
                   .then((deletedObject) => {
+                    return deletedObject;
                     console.log(
                       `successfully marked variant ${data.id} as 'deleted'`
                     );
@@ -134,20 +135,6 @@ exports.handler = async (event, context) => {
 
         return Promise.all(
           data.variants.map((variant) => {
-            const active = productVariants.some((v) => v._id === cv._id);
-            if (!active) {
-              const variantData = {
-                _type: "productVariant",
-                _id: variant.id.toString(),
-                productId: data.id,
-                deleted: true,
-                variantId: variant.id,
-                productTitle: data.title,
-                variantTitle: variant.title,
-                sku: variant.sku,
-                price: variant.price,
-              };
-            } else {
               const variantData = {
                 _type: "productVariant",
                 _id: variant.id.toString(),
@@ -158,7 +145,6 @@ exports.handler = async (event, context) => {
                 sku: variant.sku,
                 price: variant.price,
               };
-            }
 
             return client
               .transaction()

@@ -104,37 +104,23 @@ exports.handler = async (event, context) => {
               const active = productVariants.some((v) => v._id === cv._id);
               console.log(active);
               if (!active) {
-                client
-                  .patch(cv._id, (patch) => patch.set({ deleted: true }))
-                  .commit()
-                  .then((deletedObject) => {
-                    return deletedObject;
-                    console.log(
-                      `successfully marked variant ${data.id} as 'deleted'`
-                    );
+                return client
+                  .delete(cv._id.toString())
+                  .then((res) => {
+                    console.log(`Successfully deleted variant ${data.id}`);
                   })
-                  .catch((error) => {
-                    console.error(`Sanity error:`, error);
+                  .catch((err) => {
+                    console.error("Delete failed: ", err.message);
                   });
-                // client
-                // .patch(cv._id.toString())
-                // .set({ deleted: true })
-                // .commit()
-                // .then((deletedObject) => {
-                //   console.log(`successfully marked variant ${data.id} as 'deleted'`);
-                // })
-                // .catch((error) => {
-                //   console.error(`Sanity error:`, error);
-                // });
               }
             });
           });
 
-        // if (data.variants.length > 1) {
-        hasVariantsToSync = true;
+        if (data.variants.length > 1) {
+          hasVariantsToSync = true;
 
-        return Promise.all(
-          data.variants.map((variant) => {
+          return Promise.all(
+            data.variants.map((variant) => {
               const variantData = {
                 _type: "productVariant",
                 _id: variant.id.toString(),
@@ -146,45 +132,45 @@ exports.handler = async (event, context) => {
                 price: variant.price,
               };
 
-            return client
-              .transaction()
-              .createIfNotExists(variantData)
-              .patch(variant.id.toString(), (patch) => patch.set(variantData))
-              .commit()
-              .then((response) => {
-                console.log(
-                  `Successfully updated/patched Variant ${variant.id} in Sanity`
-                );
-                return response;
-              })
-              .catch((error) => {
-                console.error("Sanity error:", error);
-                return error;
-              });
-          })
-        )
-          .then((result) => {
-            return {
-              statusCode: 200,
-              body: JSON.stringify(result),
-            };
-          })
-          .catch((error) => {
-            console.error("Sanity error:", error);
+              return client
+                .transaction()
+                .createIfNotExists(variantData)
+                .patch(variant.id.toString(), (patch) => patch.set(variantData))
+                .commit()
+                .then((response) => {
+                  console.log(
+                    `Successfully updated/patched Variant ${variant.id} in Sanity`
+                  );
+                  return response;
+                })
+                .catch((error) => {
+                  console.error("Sanity error:", error);
+                  return error;
+                });
+            })
+          )
+            .then((result) => {
+              return {
+                statusCode: 200,
+                body: JSON.stringify(result),
+              };
+            })
+            .catch((error) => {
+              console.error("Sanity error:", error);
 
-            return {
-              statusCode: 500,
-              body: JSON.stringify({
-                error: "An internal server error has occurred",
-              }),
-            };
-          });
-        // } else {
-        //   return {
-        //     statusCode: 200,
-        //     body: JSON.stringify(res),
-        //   };
-        // }
+              return {
+                statusCode: 500,
+                body: JSON.stringify({
+                  error: "An internal server error has occurred",
+                }),
+              };
+            });
+        } else {
+          return {
+            statusCode: 200,
+            body: JSON.stringify(res),
+          };
+        }
       })
       .catch((error) => {
         console.error("Sanity error:", error);

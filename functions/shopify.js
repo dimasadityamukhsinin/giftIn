@@ -208,29 +208,31 @@ exports.handler = async (event, context) => {
     // you could likely use this value in Gatsby to decide whether to render the item or not
 
     // tread carefully:
-    return client
-      .patch(data.id.toString())
-      .set({ deleted: true })
-      .commit()
-      .then((deletedObject) => {
-        console.log(`successfully marked ${data.id} as 'deleted'`);
-      })
-      .catch((error) => {
-        console.error(`Sanity error:`, error);
-      });
+    // return client
+    //   .patch(data.id.toString())
+    //   .set({ deleted: true })
+    //   .commit()
+    //   .then((deletedObject) => {
+    //     console.log(`successfully marked ${data.id} as 'deleted'`);
+    //   })
+    //   .catch((error) => {
+    //     console.error(`Sanity error:`, error);
+    //   });
 
     // *~* OR *~*
 
     // DELETE FROM SANITY
     // tread carefully here: you might not want to do this if you have products associated anywhere else such as "related products" or any other schemas.
     // this will likely cause in your schemas breaking
-    //   return client
-    //     .delete(data.id.toString())
-    //     .then(res => {
-    //       console.log(`Successfully deleted product ${data.id}`)
-    //     })
-    //     .catch(err => {
-    //       console.error('Delete failed: ', err.message)
-    //     })
+      return client
+        .delete({
+          query: `*[_type == "product" && productId == ${data.id}]`,
+        })
+        .then(res => {
+          console.log(`Successfully deleted product ${data.id}`)
+        })
+        .catch(err => {
+          console.error('Delete failed: ', err.message)
+        })
   }
 };

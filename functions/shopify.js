@@ -105,7 +105,7 @@ exports.handler = async (event, context) => {
                 return client
                   .delete(cv._id.toString())
                   .then((res) => {
-                    console.log(res)
+                    console.log(res);
                     console.log(`Successfully deleted variant ${data.id}`);
                   })
                   .catch((err) => {
@@ -166,14 +166,23 @@ exports.handler = async (event, context) => {
             });
         } else {
           return client
-            .delete(data.variants[0].id.toString())
-            .then((res) => {
-              console.log(res)
-              console.log(`Successfully deleted variant ${data.id}`);
-              return res;
-            })
-            .catch((err) => {
-              console.error("Delete failed: ", err.message);
+            .fetch(
+              `*[_type == "productVariant" && productId == ${data.id}]{
+            _id
+          }`
+            )
+            .then((currentVariants) => {
+              // mark deleted variants
+              client
+                .delete(currentVariants[0]._id.toString())
+                .then((res) => {
+                  console.log(res);
+                  console.log(`Successfully deleted variant ${data.id}`);
+                  return res;
+                })
+                .catch((err) => {
+                  console.error("Delete failed: ", err.message);
+                });
             });
         }
         // } else {

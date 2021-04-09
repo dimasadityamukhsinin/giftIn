@@ -174,7 +174,7 @@ exports.handler = async (event, context) => {
           }`
             )
             .then((currentVariants) => {
-              console.log(currentVariants)
+              console.log(currentVariants);
               // mark deleted variants
               currentVariants.forEach((cv) => {
                 const active = productVariants.some((v) => v._id === cv._id);

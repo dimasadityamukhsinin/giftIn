@@ -110,7 +110,6 @@ exports.handler = async (event, context) => {
               .commit()
               .then((deletedObject) => {
                 console.log(`successfully marked variant ${data.id} as 'deleted'`);
-                return deletedObject;
               })
               .catch((error) => {
                 console.error(`Sanity error:`, error);

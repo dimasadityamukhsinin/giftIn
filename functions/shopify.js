@@ -100,9 +100,7 @@ exports.handler = async (event, context) => {
           .then((currentVariants) => {
             // mark deleted variants
             currentVariants.forEach((cv) => {
-              console.log(cv);
               const active = productVariants.some((v) => v._id === cv._id);
-              console.log(active);
               if (!active) {
                 return client
                   .delete(cv._id.toString())
@@ -118,6 +116,7 @@ exports.handler = async (event, context) => {
 
         // if (data.variants.length > 1) {
           hasVariantsToSync = true;
+          console.log(data.variants)
 
           return Promise.all(
             data.variants.map((variant) => {

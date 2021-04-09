@@ -114,11 +114,9 @@ exports.handler = async (event, context) => {
             });
           });
 
-          console.log(data.variants)
-
         // if (data.variants.length > 1) {
         hasVariantsToSync = true;
-        if (!data.variants[0].title === "Default Title") {
+        if (data.variants[0].title !== "Default Title") {
           return Promise.all(
             data.variants.map((variant) => {
               const variantData = {

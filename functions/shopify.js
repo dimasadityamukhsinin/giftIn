@@ -90,36 +90,31 @@ exports.handler = async (event, context) => {
             );
         });
 
-        // grab current variants
-        client
-          .fetch(
-            `*[_type == "productVariant" && productId == ${data.id}]{
-            _id
-          }`
-          )
-          .then((currentVariants) => {
-            // mark deleted variants
-            currentVariants.forEach((cv) => {
-              const active = productVariants.some((v) => v._id === cv._id);
-              if (!active) {
-                return client
-                  .delete(cv._id.toString())
-                  .then((res) => {
-                    console.log(`Successfully deleted variant ${data.id}`);
-                  })
-                  .catch((err) => {
-                    console.error("Delete failed: ", err.message);
-                  });
-              }
-            });
-          });
-
         // if (data.variants.length > 1) {
         hasVariantsToSync = true;
-        // console.log(data.variants);
-        console.log(data.variants[0].title);
-        console.log(data.variants[0].title !== "Default Title");
-        if (data.variants[0].title !== "Default Title") {
+        if (data.variants[0].title !== "Default Title") {        // grab current variants
+          client
+            .fetch(
+              `*[_type == "productVariant" && productId == ${data.id}]{
+              _id
+            }`
+            )
+            .then((currentVariants) => {
+              // mark deleted variants
+              currentVariants.forEach((cv) => {
+                const active = productVariants.some((v) => v._id === cv._id);
+                if (!active) {
+                  return client
+                    .delete(cv._id.toString())
+                    .then((res) => {
+                      console.log(`Successfully deleted variant ${data.id}`);
+                    })
+                    .catch((err) => {
+                      console.error("Delete failed: ", err.message);
+                    });
+                }
+              });
+            });
           return Promise.all(
             data.variants.map((variant) => {
               const variantData = {

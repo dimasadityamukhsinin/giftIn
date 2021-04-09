@@ -106,8 +106,7 @@ exports.handler = async (event, context) => {
             console.log(active);
             if (!active) {
               client
-              .patch(cv._id.toString())
-              .set({ deleted: true })
+              .patch(cv._id, (patch) => patch.set({ wasDeleted: true }))
               .commit()
               .then((deletedObject) => {
                 console.log(`successfully marked variant ${data.id} as 'deleted'`);
@@ -115,6 +114,16 @@ exports.handler = async (event, context) => {
               .catch((error) => {
                 console.error(`Sanity error:`, error);
               });
+              // client
+              // .patch(cv._id.toString())
+              // .set({ deleted: true })
+              // .commit()
+              // .then((deletedObject) => {
+              //   console.log(`successfully marked variant ${data.id} as 'deleted'`);
+              // })
+              // .catch((error) => {
+              //   console.error(`Sanity error:`, error);
+              // });
             }
           })
         })

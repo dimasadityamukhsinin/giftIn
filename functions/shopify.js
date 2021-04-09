@@ -18,8 +18,6 @@ exports.handler = async (event, context) => {
   }
 
   let data;
-  
-  console.log(data);
 
   try {
     data = JSON.parse(event.body);
@@ -33,8 +31,6 @@ exports.handler = async (event, context) => {
       }),
     };
   }
-
-  console.log(data)
 
   // Shopify sends both Product Updates/Creations AND deletions as POST requests
   // Product Updates & Creations contain the entire product body, including titles, tags, images, handle, etc.
@@ -108,7 +104,6 @@ exports.handler = async (event, context) => {
                 return client
                   .delete(cv._id.toString())
                   .then((res) => {
-                    console.log(res);
                     console.log(`Successfully deleted variant ${data.id}`);
                   })
                   .catch((err) => {
@@ -172,7 +167,6 @@ exports.handler = async (event, context) => {
               query: `*[_type == "productVariant" && productId == ${data.id}]`,
             })
             .then((res) => {
-              console.log(res);
               console.log(
                 `Successfully deleted variant ${data.id}`
               );

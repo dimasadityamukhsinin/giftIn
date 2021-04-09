@@ -1,10 +1,6 @@
 const sanityClient = require("@sanity/client");
 
-const {
-  SANITY_API_TOKEN,
-  SANITY_PROJECT_ID,
-  SANITY_DATASET,
-} = process.env;
+const { SANITY_API_TOKEN, SANITY_PROJECT_ID, SANITY_DATASET } = process.env;
 
 const client = sanityClient({
   projectId: SANITY_PROJECT_ID,
@@ -51,7 +47,7 @@ exports.handler = async (event, context) => {
       slug: {
         _type: "slug",
         current: data.handle,
-      }
+      },
     };
 
     return client
@@ -77,62 +73,81 @@ exports.handler = async (event, context) => {
         const productVariants = data.variants
           .sort((a, b) => (a.id > b.id ? 1 : -1))
           .map((variant) => ({
-            _type: 'productVariant',
+            _type: "productVariant",
             _id: variant.id.toString(),
-          }))
+          }));
 
         // create variant if doesn't exist & patch (update) variant with core shopify data
         productVariants.forEach((variant, i) => {
           client
-          .transaction()
-          .createIfNotExists(variant)
-          .patch(variant._id, (patch) => patch.set(productVariantFields[i]))
-          .patch(variant._id, (patch) =>
-            patch.setIfMissing({ title: productVariantFields[i].variantTitle })
-          )
-        })
+            .transaction()
+            .createIfNotExists(variant)
+            .patch(variant._id, (patch) => patch.set(productVariantFields[i]))
+            .patch(variant._id, (patch) =>
+              patch.setIfMissing({
+                title: productVariantFields[i].variantTitle,
+              })
+            );
+        });
 
         // grab current variants
-        client.fetch(
-          `*[_type == "productVariant" && productId == ${data.id}]{
+        client
+          .fetch(
+            `*[_type == "productVariant" && productId == ${data.id}]{
             _id
           }`
-        )
-        .then((currentVariants) => {
-          // mark deleted variants
-          currentVariants.forEach((cv) => {
-            console.log(cv);
-            const active = productVariants.some((v) => v._id === cv._id)
-            console.log(active);
-            if (!active) {
-              client
-              .patch(cv._id, (patch) => patch.set({ deleted: true }))
-              .commit()
-              .then((deletedObject) => {
-                console.log(`successfully marked variant ${data.id} as 'deleted'`);
-              })
-              .catch((error) => {
-                console.error(`Sanity error:`, error);
-              });
-              // client
-              // .patch(cv._id.toString())
-              // .set({ deleted: true })
-              // .commit()
-              // .then((deletedObject) => {
-              //   console.log(`successfully marked variant ${data.id} as 'deleted'`);
-              // })
-              // .catch((error) => {
-              //   console.error(`Sanity error:`, error);
-              // });
-            }
-          })
-        })
+          )
+          .then((currentVariants) => {
+            // mark deleted variants
+            currentVariants.forEach((cv) => {
+              console.log(cv);
+              const active = productVariants.some((v) => v._id === cv._id);
+              console.log(active);
+              if (!active) {
+                client
+                  .patch(cv._id, (patch) => patch.set({ deleted: true }))
+                  .commit()
+                  .then((deletedObject) => {
+                    console.log(
+                      `successfully marked variant ${data.id} as 'deleted'`
+                    );
+                  })
+                  .catch((error) => {
+                    console.error(`Sanity error:`, error);
+                  });
+                // client
+                // .patch(cv._id.toString())
+                // .set({ deleted: true })
+                // .commit()
+                // .then((deletedObject) => {
+                //   console.log(`successfully marked variant ${data.id} as 'deleted'`);
+                // })
+                // .catch((error) => {
+                //   console.error(`Sanity error:`, error);
+                // });
+              }
+            });
+          });
 
         // if (data.variants.length > 1) {
-          hasVariantsToSync = true;
+        hasVariantsToSync = true;
 
-          return Promise.all(
-            data.variants.map((variant) => {
+        return Promise.all(
+          data.variants.map((variant) => {
+            const active = productVariants.some((v) => v._id === cv._id);
+            if (!active) {
+              const variantData = {
+                _type: "productVariant",
+                _id: variant.id.toString(),
+                productId: data.id,
+                deleted: true,
+                variantId: variant.id,
+                productTitle: data.title,
+                variantTitle: variant.title,
+                sku: variant.sku,
+                price: variant.price,
+              };
+            } else {
               const variantData = {
                 _type: "productVariant",
                 _id: variant.id.toString(),
@@ -143,40 +158,41 @@ exports.handler = async (event, context) => {
                 sku: variant.sku,
                 price: variant.price,
               };
+            }
 
-              return client
-                .transaction()
-                .createIfNotExists(variantData)
-                .patch(variant.id.toString(), (patch) => patch.set(variantData))
-                .commit()
-                .then((response) => {
-                  console.log(
-                    `Successfully updated/patched Variant ${variant.id} in Sanity`
-                  );
-                  return response;
-                })
-                .catch((error) => {
-                  console.error("Sanity error:", error);
-                  return error;
-                });
-            })
-          )
-            .then((result) => {
-                return {
-                  statusCode: 200,
-                  body: JSON.stringify(result),
-                };
-            })
-            .catch((error) => {
-              console.error("Sanity error:", error);
+            return client
+              .transaction()
+              .createIfNotExists(variantData)
+              .patch(variant.id.toString(), (patch) => patch.set(variantData))
+              .commit()
+              .then((response) => {
+                console.log(
+                  `Successfully updated/patched Variant ${variant.id} in Sanity`
+                );
+                return response;
+              })
+              .catch((error) => {
+                console.error("Sanity error:", error);
+                return error;
+              });
+          })
+        )
+          .then((result) => {
+            return {
+              statusCode: 200,
+              body: JSON.stringify(result),
+            };
+          })
+          .catch((error) => {
+            console.error("Sanity error:", error);
 
-              return {
-                statusCode: 500,
-                body: JSON.stringify({
-                  error: "An internal server error has occurred",
-                }),
-              };
-            });
+            return {
+              statusCode: 500,
+              body: JSON.stringify({
+                error: "An internal server error has occurred",
+              }),
+            };
+          });
         // } else {
         //   return {
         //     statusCode: 200,

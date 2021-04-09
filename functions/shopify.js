@@ -172,7 +172,7 @@ exports.handler = async (event, context) => {
             .then((res) => {
               console.log(res);
               console.log(
-                `Successfully deleted variant ${data.variants[0].id}`
+                `Successfully deleted variant ${data.id}`
               );
               return res;
             })

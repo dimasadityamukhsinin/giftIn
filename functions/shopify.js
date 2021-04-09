@@ -90,31 +90,33 @@ exports.handler = async (event, context) => {
             );
         });
 
+        // grab current variants
+        client
+          .fetch(
+            `*[_type == "productVariant" && productId == ${data.id}]{
+            _id
+          }`
+          )
+          .then((currentVariants) => {
+            // mark deleted variants
+            currentVariants.forEach((cv) => {
+              const active = productVariants.some((v) => v._id === cv._id);
+              if (!active) {
+                return client
+                  .delete(cv._id.toString())
+                  .then((res) => {
+                    console.log(`Successfully deleted variant ${data.id}`);
+                  })
+                  .catch((err) => {
+                    console.error("Delete failed: ", err.message);
+                  });
+              }
+            });
+          });
+
         // if (data.variants.length > 1) {
         hasVariantsToSync = true;
-        if (data.variants[0].title !== "Default Title") {        // grab current variants
-          client
-            .fetch(
-              `*[_type == "productVariant" && productId == ${data.id}]{
-              _id
-            }`
-            )
-            .then((currentVariants) => {
-              // mark deleted variants
-              currentVariants.forEach((cv) => {
-                const active = productVariants.some((v) => v._id === cv._id);
-                if (!active) {
-                  return client
-                    .delete(cv._id.toString())
-                    .then((res) => {
-                      console.log(`Successfully deleted variant ${data.id}`);
-                    })
-                    .catch((err) => {
-                      console.error("Delete failed: ", err.message);
-                    });
-                }
-              });
-            });
+        if (data.variants[0].title !== "Default Title") {
           return Promise.all(
             data.variants.map((variant) => {
               const variantData = {
@@ -162,24 +164,14 @@ exports.handler = async (event, context) => {
               };
             });
         } else {
-          client
-            .fetch(
-              `*[_type == "productVariant" && productId == ${data.id}]{
-            _id
-          }`
-            )
-            .then((currentVariants) => {
-              console.log(currentVariants);
-              // mark deleted variants
-              return client
-                .delete(currentVariants[0]._id.toString())
-                .then((res) => {
-                  console.log(`Successfully deleted variant ${data.id}`);
-                  return res;
-                })
-                .catch((err) => {
-                  console.error("Delete failed: ", err.message);
-                });
+          return client
+            .delete(data.variants[0].id.toString())
+            .then((res) => {
+              console.log(`Successfully deleted variant ${data.id}`);
+              return res;
+            })
+            .catch((err) => {
+              console.error("Delete failed: ", err.message);
             });
         }
         // } else {

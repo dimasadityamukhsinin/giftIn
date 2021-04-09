@@ -32,205 +32,77 @@ exports.handler = async (event, context) => {
     };
   }
 
-  console.log(data)
+  console.log(data);
 
-//   if (data.hasOwnProperty("title") && data.hasOwnProperty("handle")) {
+  if (data.hasOwnProperty("title") && data.hasOwnProperty("handle")) {
+    const collection = {
+      _type: "collection",
+      _id: data.id.toString(),
+      collectionId: data.id,
+      title: data.title,
+      handle: data.handle
+    };
 
-//     const collection = {
-//       _type: "collection",
-//       _id: data.id.toString(),
-//       productId: data.id,
-//       title: data.title,
-//       defaultPrice: data.variants[0].price,
-//       slug: {
-//         _type: "slug",
-//         current: data.handle,
-//       },
-//     };
+    return client
+      .transaction()
+      .createIfNotExists(product)
+      .patch(data.id.toString(), (patch) => patch.set(product))
+      .commit()
+      .then((res) => {
+        console.log(
+          `Successfully updated/patched Collection ${data.id} in Sanity`
+        );
+        return {
+          statusCode: 200,
+          body: JSON.stringify(res),
+        };
+      })
+      .catch((error) => {
+        console.error("Sanity error:", error);
 
-//     return client
-//       .transaction()
-//       .createIfNotExists(product)
-//       .patch(data.id.toString(), (patch) => patch.set(product))
-//       .commit()
-//       .then((res) => {
-//         console.log(
-//           `Successfully updated/patched Product ${data.id} in Sanity`
-//         );
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            error: "An internal server error has occurred",
+          }),
+        };
+      });
+  } else if (
+    data.hasOwnProperty("id") &&
+    !data.hasOwnProperty("title") &&
+    !data.hasOwnProperty("handle")
+  ) {
+    // this is triggered if Shopify sends a Product Deletion webhook that does NOT contain anything besides an ID
 
-//         const productVariantFields = data.variants.map((variant) => ({
-//           productId: data.id,
-//           variantId: variant.id,
-//           productTitle: data.title,
-//           variantTitle: variant.title,
-//           sku: variant.sku,
-//           price: variant.price,
-//         }));
+    // sets the "deleted" boolean to true
+    // you could likely use this value in Gatsby to decide whether to render the item or not
 
-//         // Define productVariant documents
-//         const productVariants = data.variants
-//           .sort((a, b) => (a.id > b.id ? 1 : -1))
-//           .map((variant) => ({
-//             _type: "productVariant",
-//             _id: variant.id.toString(),
-//           }));
+    // tread carefully:
+    // return client
+    //   .patch(data.id.toString())
+    //   .set({ deleted: true })
+    //   .commit()
+    //   .then((deletedObject) => {
+    //     console.log(`successfully marked ${data.id} as 'deleted'`);
+    //   })
+    //   .catch((error) => {
+    //     console.error(`Sanity error:`, error);
+    //   });
 
-//         // create variant if doesn't exist & patch (update) variant with core shopify data
-//         productVariants.forEach((variant, i) => {
-//           client
-//             .transaction()
-//             .createIfNotExists(variant)
-//             .patch(variant._id, (patch) => patch.set(productVariantFields[i]))
-//             .patch(variant._id, (patch) =>
-//               patch.setIfMissing({
-//                 title: productVariantFields[i].variantTitle,
-//               })
-//             );
-//         });
+    // *~* OR *~*
 
-//         // grab current variants
-//         client
-//           .fetch(
-//             `*[_type == "productVariant" && productId == ${data.id}]{
-//             _id
-//           }`
-//           )
-//           .then((currentVariants) => {
-//             // mark deleted variants
-//             currentVariants.forEach((cv) => {
-//               const active = productVariants.some((v) => v._id === cv._id);
-//               if (!active) {
-//                 return client
-//                   .delete(cv._id.toString())
-//                   .then((res) => {
-//                     console.log(res);
-//                     console.log(`Successfully deleted variant ${data.id}`);
-//                   })
-//                   .catch((err) => {
-//                     console.error("Delete failed: ", err.message);
-//                   });
-//               }
-//             });
-//           });
-
-//         // if (data.variants.length > 1) {
-//         hasVariantsToSync = true;
-//         if (data.variants[0].title !== "Default Title") {
-//           return Promise.all(
-//             data.variants.map((variant) => {
-//               const variantData = {
-//                 _type: "productVariant",
-//                 _id: variant.id.toString(),
-//                 productId: data.id,
-//                 variantId: variant.id,
-//                 productTitle: data.title,
-//                 variantTitle: variant.title,
-//                 sku: variant.sku,
-//                 price: variant.price,
-//               };
-
-//               return client
-//                 .transaction()
-//                 .createIfNotExists(variantData)
-//                 .patch(variant.id.toString(), (patch) => patch.set(variantData))
-//                 .commit()
-//                 .then((response) => {
-//                   console.log(
-//                     `Successfully updated/patched Variant ${variant.id} in Sanity`
-//                   );
-//                   return response;
-//                 })
-//                 .catch((error) => {
-//                   console.error("Sanity error:", error);
-//                   return error;
-//                 });
-//             })
-//           )
-//             .then((result) => {
-//               return {
-//                 statusCode: 200,
-//                 body: JSON.stringify(result),
-//               };
-//             })
-//             .catch((error) => {
-//               console.error("Sanity error:", error);
-
-//               return {
-//                 statusCode: 500,
-//                 body: JSON.stringify({
-//                   error: "An internal server error has occurred",
-//                 }),
-//               };
-//             });
-//         } else {
-//           return client
-//             .delete({
-//               query: `*[_type == "productVariant" && productId == ${data.id}]`,
-//             })
-//             .then((res) => {
-//               console.log(res);
-//               console.log(
-//                 `Successfully deleted variant ${data.id}`
-//               );
-//               return res;
-//             })
-//             .catch((err) => {
-//               console.error("Delete failed: ", err.message);
-//             });
-//         }
-//         // } else {
-//         //   return {
-//         //     statusCode: 200,
-//         //     body: JSON.stringify(res),
-//         //   };
-//         // }
-//       })
-//       .catch((error) => {
-//         console.error("Sanity error:", error);
-
-//         return {
-//           statusCode: 500,
-//           body: JSON.stringify({
-//             error: "An internal server error has occurred",
-//           }),
-//         };
-//       });
-//   } else if (
-//     data.hasOwnProperty("id") &&
-//     !data.hasOwnProperty("title") &&
-//     !data.hasOwnProperty("handle")
-//   ) {
-//     // this is triggered if Shopify sends a Product Deletion webhook that does NOT contain anything besides an ID
-
-//     // sets the "deleted" boolean to true
-//     // you could likely use this value in Gatsby to decide whether to render the item or not
-
-//     // tread carefully:
-//     // return client
-//     //   .patch(data.id.toString())
-//     //   .set({ deleted: true })
-//     //   .commit()
-//     //   .then((deletedObject) => {
-//     //     console.log(`successfully marked ${data.id} as 'deleted'`);
-//     //   })
-//     //   .catch((error) => {
-//     //     console.error(`Sanity error:`, error);
-//     //   });
-
-//     // *~* OR *~*
-
-//     // DELETE FROM SANITY
-//     // tread carefully here: you might not want to do this if you have products associated anywhere else such as "related products" or any other schemas.
-//     // this will likely cause in your schemas breaking
-//       return client
-//         .delete({
-//           query: `*[_type == "product" && productId == ${data.id}]`,
-//         })
-//         .then(res => {
-//           console.log(`Successfully deleted product ${data.id}`)
-//         })
-//         .catch(err => {
-//           console.error('Delete failed: ', err.message)
-//         })
-//   }
+    // DELETE FROM SANITY
+    // tread carefully here: you might not want to do this if you have products associated anywhere else such as "related products" or any other schemas.
+    // this will likely cause in your schemas breaking
+    return client
+      .delete({
+        query: `*[_type == "collection" && collectionId == ${data.id}]`,
+      })
+      .then((res) => {
+        console.log(`Successfully deleted collection ${data.id}`);
+      })
+      .catch((err) => {
+        console.error("Delete failed: ", err.message);
+      });
+  }
 };

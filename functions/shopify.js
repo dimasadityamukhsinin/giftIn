@@ -117,8 +117,8 @@ exports.handler = async (event, context) => {
         // if (data.variants.length > 1) {
         hasVariantsToSync = true;
         // console.log(data.variants);
-        // console.log(data.variants[0].title);
-        // console.log(data.variants[0].title !== "Default Title");
+        console.log(data.variants[0].title);
+        console.log(data.variants[0].title !== "Default Title");
         if (data.variants[0].title !== "Default Title") {
           return Promise.all(
             data.variants.map((variant) => {

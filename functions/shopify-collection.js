@@ -40,7 +40,7 @@ exports.handler = async (event, context) => {
       _id: data.id.toString(),
       collectionId: data.id,
       title: data.title,
-      handle: data.handle
+      slug: data.handle
     };
 
     return client

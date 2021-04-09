@@ -177,7 +177,7 @@ exports.handler = async (event, context) => {
               console.log(currentVariants);
               // mark deleted variants
               return client
-                .delete(currentVariants._id.toString())
+                .delete(currentVariants[0]._id.toString())
                 .then((res) => {
                   console.log(`Successfully deleted variant ${data.id}`);
                   return res;

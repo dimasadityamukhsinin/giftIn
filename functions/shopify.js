@@ -166,7 +166,9 @@ exports.handler = async (event, context) => {
             });
         } else {
           return client
-            .delete(data.variants[0].id.toString())
+            .delete({
+              query: `*[_type == "productVariant" && productId == ${data.id}]`,
+            })
             .then((res) => {
               console.log(res);
               console.log(

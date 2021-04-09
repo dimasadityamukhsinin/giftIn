@@ -163,6 +163,16 @@ exports.handler = async (event, context) => {
                 }),
               };
             });
+        } else {
+          client
+            .delete(cv._id.toString())
+            .then((res) => {
+              console.log(`Successfully deleted variant ${data.id}`);
+              return res
+            })
+            .catch((err) => {
+              console.error("Delete failed: ", err.message);
+            });
         }
         // } else {
         //   return {

@@ -18,7 +18,8 @@ exports.handler = async (event, context) => {
   }
 
   let data;
-  let hasVariantsToSync = false;
+  
+  console.log(data);
 
   try {
     data = JSON.parse(event.body);

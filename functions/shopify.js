@@ -167,39 +167,30 @@ exports.handler = async (event, context) => {
               };
             });
         } else {
-          // client
-          //   .fetch(
-          //     `*[_type == "productVariant" && productId == ${data.id}]{
-          //   _id
-          // }`
-          //   )
-          //   .then((currentVariants) => {
-          //     client
-          //       .patch(data.id.toString())
-          //       .set({ deleted: true })
-          //       .commit()
-          //       .then((deletedObject) => {
-          //         console.log(`successfully marked ${data.id} as 'deleted'`);
-          //       })
-          //       .catch((error) => {
-          //         console.error(`Sanity error:`, error);
-          //       });
-          //     // mark deleted variants
-          //     // currentVariants.forEach((cv) => {
-          //     //   const active = productVariants.some((v) => v._id === cv._id);
-          //     //   if (!active) {
-          //     //     return client
-          //     //       .delete(cv._id.toString())
-          //     //       .then((res) => {
-          //     //         console.log(`Successfully deleted variant ${data.id}`);
-          //     //         return res;
-          //     //       })
-          //     //       .catch((err) => {
-          //     //         console.error("Delete failed: ", err.message);
-          //     //       });
-          //     //   }
-          //     // });
-          //   });
+          client
+            .fetch(
+              `*[_type == "productVariant" && productId == ${data.id}]{
+            _id
+          }`
+            )
+            .then((currentVariants) => {
+              console.log(currentVariants)
+              // mark deleted variants
+              currentVariants.forEach((cv) => {
+                const active = productVariants.some((v) => v._id === cv._id);
+                if (!active) {
+                  return client
+                    .delete(cv._id.toString())
+                    .then((res) => {
+                      console.log(`Successfully deleted variant ${data.id}`);
+                      return res;
+                    })
+                    .catch((err) => {
+                      console.error("Delete failed: ", err.message);
+                    });
+                }
+              });
+            });
         }
         // } else {
         //   return {

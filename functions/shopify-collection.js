@@ -45,8 +45,8 @@ exports.handler = async (event, context) => {
 
     return client
       .transaction()
-      .createIfNotExists(product)
-      .patch(data.id.toString(), (patch) => patch.set(product))
+      .createIfNotExists(collection)
+      .patch(data.id.toString(), (patch) => patch.set(collection))
       .commit()
       .then((res) => {
         console.log(
@@ -72,7 +72,7 @@ exports.handler = async (event, context) => {
     !data.hasOwnProperty("title") &&
     !data.hasOwnProperty("handle")
   ) {
-    // this is triggered if Shopify sends a Product Deletion webhook that does NOT contain anything besides an ID
+    // this is triggered if Shopify sends a Collection Deletion webhook that does NOT contain anything besides an ID
 
     // sets the "deleted" boolean to true
     // you could likely use this value in Gatsby to decide whether to render the item or not
@@ -92,7 +92,7 @@ exports.handler = async (event, context) => {
     // *~* OR *~*
 
     // DELETE FROM SANITY
-    // tread carefully here: you might not want to do this if you have products associated anywhere else such as "related products" or any other schemas.
+    // tread carefully here: you might not want to do this if you have Collection associated anywhere else such as "related collection" or any other schemas.
     // this will likely cause in your schemas breaking
     return client
       .delete({

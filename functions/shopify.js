@@ -129,7 +129,7 @@ exports.handler = async (event, context) => {
           })
         })
 
-        if (data.variants.length > 1) {
+        // if (data.variants.length > 1) {
           hasVariantsToSync = true;
 
           return Promise.all(
@@ -178,12 +178,12 @@ exports.handler = async (event, context) => {
                 }),
               };
             });
-        } else {
-          return {
-            statusCode: 200,
-            body: JSON.stringify(res),
-          };
-        }
+        // } else {
+        //   return {
+        //     statusCode: 200,
+        //     body: JSON.stringify(res),
+        //   };
+        // }
       })
       .catch((error) => {
         console.error("Sanity error:", error);

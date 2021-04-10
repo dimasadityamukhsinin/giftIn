@@ -32,6 +32,8 @@ exports.handler = async (event, context) => {
     };
   }
 
+  console.log(data)
+
   if (data.hasOwnProperty("title") && data.hasOwnProperty("handle")) {
     const collection = {
       _type: "collection",

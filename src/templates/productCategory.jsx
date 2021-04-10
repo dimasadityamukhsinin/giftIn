@@ -21,7 +21,7 @@ const ProductCategory = ({ data }) => {
     const indexOfLastProduct = currentProduct * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     setCurrentProducts([
-      data.shopifyCollection.products.slice(
+      data.sanityCollection.product.slice(
         indexOfFirstProduct,
         indexOfLastProduct
       ),
@@ -50,7 +50,7 @@ const ProductCategory = ({ data }) => {
                 {category.map((el, id) => (
                   <Link
                     className={`col-2 text-center ${
-                      data.shopifyCollection.handle === el.node.slug
+                      data.sanityCollection.slug === el.node.slug
                         ? `active`
                         : ``
                     }`}
@@ -73,13 +73,15 @@ const ProductCategory = ({ data }) => {
                 <LoadingProduct />
               )}
             </div>
-            {currentProducts !== undefined && currentProducts.length > 0 ? (
+            {data.sanityCollection.product.length > 0 ? (
+              currentProducts ? (
               <Pagination
                 productsPerPage={productsPerPage}
                 totalProducts={currentProducts.length}
                 paginate={paginate}
                 currentProduct={currentProduct}
               />
+              ) : null
             ) : null}
           </div>
         </div>
@@ -91,23 +93,21 @@ const ProductCategory = ({ data }) => {
 
 export const query = graphql`
   query ShopyProductByCategory($category: String!) {
-    shopifyCollection(handle: { eq: $category }) {
-      handle
-      products {
-        id
-        availableForSale
-        createdAt
-        descriptionHtml
-        handle
-        images {
-          id
-          originalSrc
-        }
-        productType
+    sanityCollection(slug: {eq: $category }) {
+      slug
+      product {
         title
-        variants {
-          price
-          id
+        price
+        variantId
+        image {
+          asset {
+            url
+          }
+        }
+        slug {
+          _key
+          _type
+          current
         }
       }
     }

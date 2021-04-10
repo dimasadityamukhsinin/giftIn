@@ -58,7 +58,9 @@ const ProductPage = ({ data }) => {
             <div className="row pb-5" id={styles.gift}>
               {currentProducts ? (
                 currentProducts.map((datas, id) => (
-                  <ProductComponent key={id} dataProduct={datas.node} />
+                  datas.node.image ? (
+                    <ProductComponent key={id} dataProduct={datas.node} />
+                  ) : null
                 ))
               ) : (
                 <LoadingProduct />
@@ -82,23 +84,21 @@ const ProductPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    shopifyProduct: allShopifyProduct {
+    shopifyProduct: allSanityProduct {
       edges {
         node {
-          id
-          availableForSale
-          createdAt
-          descriptionHtml
-          handle
-          images {
-            id
-            originalSrc
-          }
-          productType
           title
-          variants {
-            price
-            id
+          price
+          variantId
+          image {
+            asset {
+              url
+            }
+          }
+          slug {
+            _key
+            _type
+            current
           }
         }
       }

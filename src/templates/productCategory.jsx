@@ -30,8 +30,8 @@ const ProductCategory = ({ data }) => {
       data.shopifyCollection.products.slice(
         indexOfFirstProduct,
         indexOfLastProduct
-      )]
-    );
+      ),
+    ]);
   }, []);
 
   return (
@@ -56,11 +56,11 @@ const ProductCategory = ({ data }) => {
                 {category.map((el, id) => (
                   <Link
                     className={`col-2 text-center ${
-                      data.shopifyCollection.handle === el.node.handle
+                      data.shopifyCollection.handle === el.node.slug
                         ? `active`
                         : ``
                     }`}
-                    to={`/products/category/${el.node.handle}`}
+                    to={`/products/category/${el.node.slug}`}
                     key={id}
                   >
                     <span>{el.node.title}</span>
@@ -115,11 +115,11 @@ export const query = graphql`
         }
       }
     }
-    shopifyCategory: allShopifyCollection {
+    shopifyCategory: allSanityCollection {
       edges {
         node {
           title
-          handle
+          slug
         }
       }
     }

@@ -73,9 +73,11 @@ const IndexPage = ({ data }) => {
                 </div>
                 <div className="row mb-5" id={styles.gift}>
                   {product ? (
-                    product.map((element, id) => (
-                      <ProductComponent key={id} dataProduct={element.node} />
-                    ))
+                    product.map((element, id) =>
+                      element.node.image ? (
+                        <ProductComponent key={id} dataProduct={element.node} />
+                      ) : null
+                    )
                   ) : (
                     <LoadingProduct />
                   )}

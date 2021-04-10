@@ -39,13 +39,15 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  category.data.allShopifyCollection.edges.forEach((edge) => {
-    createPage({
-      path: `/products/category/${edge.node.handle}`,
-      component: path.resolve("./src/templates/productCategory.jsx"),
-      context: {
-        category: edge.node.handle,
-      },
+  if (category.data.allShopifyCollection.edges) {
+    category.data.allShopifyCollection.edges.forEach((edge) => {
+      createPage({
+        path: `/products/category/${edge.node.handle}`,
+        component: path.resolve("./src/templates/productCategory.jsx"),
+        context: {
+          category: edge.node.handle,
+        },
+      });
     });
-  });
+  }
 };

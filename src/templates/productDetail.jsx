@@ -67,7 +67,7 @@ const ProductDetail = ({ data }) => {
     }
   };
 
-  return !product.image ? (
+  return !product || !product.image ? (
     <NotFoundPage />
   ) : (
     <>

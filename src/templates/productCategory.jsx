@@ -20,12 +20,6 @@ const ProductCategory = ({ data }) => {
   React.useEffect(() => {
     const indexOfLastProduct = currentProduct * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    console.log(
-      data.shopifyCollection.products.slice(
-        indexOfFirstProduct,
-        indexOfLastProduct
-      )
-    );
     setCurrentProducts([
       data.shopifyCollection.products.slice(
         indexOfFirstProduct,
@@ -71,7 +65,9 @@ const ProductCategory = ({ data }) => {
             <div className="row pb-5" id={styles.gift}>
               {currentProducts ? (
                 currentProducts.map((datas, id) => (
-                  <ProductComponent key={id} dataProduct={datas} />
+                  datas.node.image ? (
+                    <ProductComponent key={id} dataProduct={datas.node} />
+                  ) : null
                 ))
               ) : (
                 <LoadingProduct />

@@ -5,6 +5,15 @@
     font-weight: 500;
 }
 
+#navbar {
+    @include respond-to("sm") {
+        li {
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+        }
+    }
+}
+
 .cart {
     cursor: pointer;
 

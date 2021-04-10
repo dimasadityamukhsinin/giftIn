@@ -34,7 +34,7 @@ exports.createPages = async ({ graphql, actions }) => {
       path: `/products/${edge.node.handle}`,
       component: path.resolve("./src/templates/productDetail.jsx"),
       context: {
-        id: edge.node.id,
+        slug: edge.node.handle,
       },
     });
   });

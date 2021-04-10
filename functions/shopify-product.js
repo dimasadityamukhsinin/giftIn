@@ -47,6 +47,8 @@ exports.handler = async (event, context) => {
       title: data.title,
       price: data.variants[0].price,
       sku: data.variants[0].sku,
+      weight: data.variants[0].weight,
+      productType: data.product_type,
       slug: {
         _type: "slug",
         current: data.handle,

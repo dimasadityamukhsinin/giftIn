@@ -57,10 +57,7 @@ const IndexPage = ({ data }) => {
                 >
                   <h3 className="text-center mb-5">Popular Gift Collection</h3>
                   <div className="container justify-content-center">
-                    <Link
-                      className="col-2 text-center active"
-                      to="/products"
-                    >
+                    <Link className="col-2 text-center active" to="/products">
                       <span>New Gift's</span>
                     </Link>
                     {category.map((data, id) => (
@@ -273,23 +270,21 @@ export const query = graphql`
         }
       }
     }
-    shopifyProduct: allShopifyProduct {
+    shopifyProduct: allSanityProduct {
       edges {
         node {
-          id
-          availableForSale
-          createdAt
-          descriptionHtml
-          handle
-          images {
-            id
-            originalSrc
-          }
-          productType
           title
-          variants {
-            price
-            id
+          price
+          variantId
+          image {
+            asset {
+              url
+            }
+          }
+          slug {
+            _key
+            _type
+            current
           }
         }
       }

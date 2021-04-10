@@ -6,6 +6,7 @@ import * as styles from "../../styles/modules/productComponent.module.scss";
 import { useStaticQuery, graphql, Link } from "gatsby";
 
 const ProductComponent = ({ dataProduct }) => {
+
   const data = useStaticQuery(
     graphql`
       query {
@@ -26,7 +27,7 @@ const ProductComponent = ({ dataProduct }) => {
     if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
       const lineItemsToAdd = [
         {
-          variantId: dataProduct.variants[0].id,
+          variantId: dataProduct.variantId,
           quantity: 1,
         },
       ];
@@ -49,7 +50,7 @@ const ProductComponent = ({ dataProduct }) => {
 
         const lineItemsToAdd = [
           {
-            variantId: dataProduct.variants[0].id,
+            variantId: dataProduct.variantId,
             quantity: 1,
           },
         ];
@@ -69,7 +70,7 @@ const ProductComponent = ({ dataProduct }) => {
   return (
     <div className="p-0" id={styles.productComponent}>
       <img
-        src={dataProduct.images[0].originalSrc}
+        src={dataProduct.image.asset.url}
         alt={dataProduct.title}
         height="200"
       />
@@ -77,7 +78,7 @@ const ProductComponent = ({ dataProduct }) => {
         <div className="col-7 d-flex flex-column p-0">
           <h4>{dataProduct.title}</h4>
           <Link
-            to={`/products/${dataProduct.handle}`}
+            to={`/products/${dataProduct.slug.current}`}
             className="col text-center mt-3"
           >
             <span>GIFT NOW</span>
@@ -87,7 +88,7 @@ const ProductComponent = ({ dataProduct }) => {
           <button onClick={() => getCart()}>
             <Img fixed={data.bookmark.childImageSharp.fixed} alt="Bookmark" />
           </button>
-          <span className="mb-2">{`Rp.${dataProduct.variants[0].price}`}</span>
+          <span className="mb-2">{`Rp.${dataProduct.price}`}</span>
         </div>
       </div>
     </div>

@@ -100,10 +100,7 @@ const ProductDetail = ({ data }) => {
           <div className="container">
             <div className="row">
               <div className="col">
-                <img
-                  src={product.image.asset.url}
-                  alt={product.title}
-                />
+                <img src={product.image.asset.url} alt={product.title} />
               </div>
               <div className="col p-4">
                 <h4>{product.title}</h4>
@@ -115,11 +112,16 @@ const ProductDetail = ({ data }) => {
                     <span>Weight : {product.weight}Kg</span>
                   </div>
                 </div>
-                <span className="d-block p-4 my-4">
-                  Rp.{product.price}
-                </span>
+                <span className="d-block p-4 my-4">Rp.{product.price}</span>
                 <div className="mt-4">
-                  <p>{parse(toPlainText(product.productDescription._rawChildren))}</p>
+                  <p>
+                    {parse(
+                      product.productDescription[0]._rawChildren
+                        .map((child) => child.text)
+                        .join("")
+                        .replace("\n", "<br />")
+                    )}
+                  </p>
                 </div>
                 <div className="row mt-2 align-items-center">
                   <div className="col-3">
@@ -165,6 +167,8 @@ export const query = graphql`
           url
         }
       }
+      productType
+      weight
     }
   }
 `;

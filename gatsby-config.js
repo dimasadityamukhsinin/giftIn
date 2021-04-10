@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 module.exports = {
   siteMetadata: {
     title: "gatsby-sanity-shopify",
@@ -43,6 +45,14 @@ module.exports = {
         shopName: "bacalahshop.myshopify.com",
         accessToken: "981ecb8da5a55216f463b62e9833b806",
         downloadImages: false
+      },
+    },
+    {
+      resolve: "gatsby-source-sanity",
+      options: {
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET,
+        token: process.env.SANITY_API_TOKEN,
       },
     },
   ],

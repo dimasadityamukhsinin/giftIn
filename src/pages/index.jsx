@@ -7,39 +7,12 @@ import Navigation from "../components/parts/navigation";
 import Footer from "../components/parts/footer";
 import ProductComponent from "../components/parts/productComponent";
 import LoadingProduct from "../components/parts/loadingProduct";
-import { Link, useStaticQuery } from "gatsby";
+import { Link } from "gatsby";
 
 // markup
 const IndexPage = ({ data }) => {
+  const [product] = React.useState(data.shopifyProduct.edges);
   const [category] = React.useState(data.shopifyCategory.edges);
-
-  const product= useStaticQuery(
-    graphql`
-      query {
-        shopifyProduct: allShopifyProduct {
-          edges {
-            node {
-              id
-              availableForSale
-              createdAt
-              descriptionHtml
-              handle
-              images {
-                id
-                originalSrc
-              }
-              productType
-              title
-              variants {
-                price
-                id
-              }
-            }
-          }
-        }
-      }
-    `
-  );
 
   return (
     <>
@@ -102,8 +75,8 @@ const IndexPage = ({ data }) => {
                   </div>
                 </div>
                 <div className="row mb-5" id={styles.gift}>
-                  {product.shopifyProduct.edges ? (
-                    product.shopifyProduct.edges.map((element, id) => (
+                  {product ? (
+                    product.map((element, id) => (
                       <ProductComponent key={id} dataProduct={element.node} />
                     ))
                   ) : (
@@ -297,6 +270,27 @@ export const query = graphql`
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid
+        }
+      }
+    }
+    shopifyProduct: allShopifyProduct {
+      edges {
+        node {
+          id
+          availableForSale
+          createdAt
+          descriptionHtml
+          handle
+          images {
+            id
+            originalSrc
+          }
+          productType
+          title
+          variants {
+            price
+            id
+          }
         }
       }
     }

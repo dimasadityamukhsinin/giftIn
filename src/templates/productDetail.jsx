@@ -90,7 +90,10 @@ const ProductDetail = ({ data }) => {
 
   return (
     <>
-      <main>
+    {
+      console.log(product)
+    }
+      {/* <main>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{product.title}</title>
@@ -145,7 +148,7 @@ const ProductDetail = ({ data }) => {
             </div>
           </div>
         </div>
-      </main>
+      </main> */}
       <Footer />
     </>
   );

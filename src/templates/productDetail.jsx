@@ -25,21 +25,23 @@ const ProductDetail = ({ data }) => {
   const onCart = () => {
     const dataCheckout = JSON.parse(localStorage.getItem("dataCheckout"));
     if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
-      const lineItemsToAdd = [
-        {
-          variantId: product.variantId,
-          quantity: 1,
-        },
-      ];
-      client.checkout
-        .addLineItems(dataCheckout.id, lineItemsToAdd)
-        .then((checkout) => {
-          let jumlah = 0;
-          checkout.lineItems.forEach((data) => {
-            jumlah += data.quantity;
+      client.product.fetchByHandle(product.slug.current).then((product) => {
+        const lineItemsToAdd = [
+          {
+            variantId: product.variants[0].id,
+            quantity: 1,
+          },
+        ];
+        client.checkout
+          .addLineItems(dataCheckout.id, lineItemsToAdd)
+          .then((checkout) => {
+            let jumlah = 0;
+            checkout.lineItems.forEach((data) => {
+              jumlah += data.quantity;
+            });
+            appContext.setQuantity(jumlah);
           });
-          appContext.setQuantity(jumlah);
-        });
+      });
     } else {
       client.checkout.create().then((checkout) => {
         const data = {
@@ -48,21 +50,24 @@ const ProductDetail = ({ data }) => {
         };
         localStorage.setItem("dataCheckout", JSON.stringify(data));
 
-        const lineItemsToAdd = [
-          {
-            variantId: product.variantId,
-            quantity: 1,
-          },
-        ];
-        client.checkout
-          .addLineItems(checkout.id, lineItemsToAdd)
-          .then((checkout) => {
-            let jumlah = 0;
-            checkout.lineItems.forEach((data) => {
-              jumlah += data.quantity;
+        client.product.fetchByHandle(product.slug.current).then((product) => {
+          // Do something with the product
+          const lineItemsToAdd = [
+            {
+              variantId: product.variants[0].id,
+              quantity: 1,
+            },
+          ];
+          client.checkout
+            .addLineItems(checkout.id, lineItemsToAdd)
+            .then((checkout) => {
+              let jumlah = 0;
+              checkout.lineItems.forEach((data) => {
+                jumlah += data.quantity;
+              });
+              appContext.setQuantity(jumlah);
             });
-            appContext.setQuantity(jumlah);
-          });
+        });
       });
     }
   };
@@ -150,6 +155,11 @@ export const query = graphql`
       }
       productType
       weight
+      slug {
+        _key
+        _type
+        current
+      }
     }
   }
 `;

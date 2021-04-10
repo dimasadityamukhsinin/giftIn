@@ -29,7 +29,7 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
-  if (category.data.allShopifyProduct.edges) {
+  if (slug.data.allShopifyProduct.edges) {
     slug.data.allShopifyProduct.edges.forEach((edge) => {
       createPage({
         path: `/products/${edge.node.handle}`,

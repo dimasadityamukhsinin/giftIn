@@ -7,6 +7,7 @@ import parse from "html-react-parser";
 import { useAppContext } from "../context/store";
 import { graphql } from "gatsby";
 import Footer from "../components/parts/footer";
+import NotFoundPage from "../pages/404";
 
 const ProductDetail = ({ data }) => {
   const [product] = useState(data.sanityProduct);
@@ -66,34 +67,11 @@ const ProductDetail = ({ data }) => {
     }
   };
 
-  const toPlainText = (blocks = []) => {
-    return (
-      blocks
-        // loop through each block
-        .map((block) => {
-          // if it's not a text block with children,
-          // return nothing
-          if (block._type !== "block" || !block.children) {
-            return "";
-          }
-          // loop through the children spans, and join the
-          // text strings
-          return block.children
-            .map((child) => child.text)
-            .join("")
-            .replace("\n", "<br />");
-        })
-        // join the paragraphs leaving split by two linebreaks
-        .join("\n\n")
-    );
-  };
-
-  return (
+  return !product.image ? (
+    <NotFoundPage />
+  ) : (
     <>
-    {
-      console.log(product)
-    }
-      {/* <main>
+      <main>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{product.title}</title>
@@ -148,7 +126,7 @@ const ProductDetail = ({ data }) => {
             </div>
           </div>
         </div>
-      </main> */}
+      </main>
       <Footer />
     </>
   );

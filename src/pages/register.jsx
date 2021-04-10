@@ -4,6 +4,7 @@ import * as React from "react";
 import * as styles from "../styles/modules/auth.module.scss";
 import firebase from "gatsby-plugin-firebase";
 import { Helmet } from "react-helmet";
+import { Link } from "gatsby";
 
 const RegisterPage = ({ data }) => {
   const [email, setEmail] = React.useState();
@@ -55,7 +56,7 @@ const RegisterPage = ({ data }) => {
             <div className="mb-3">
               <label className="form-label">Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 className="form-control"
                 onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +66,7 @@ const RegisterPage = ({ data }) => {
             </div>
             <div class="row">
               <div class="col-md-6">
-                <a href="/login">Have account?</a>
+                <Link to="/login">Have account?</Link>
               </div>
             </div>
             <button

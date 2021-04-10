@@ -39,7 +39,7 @@ const LoginPage = ({ data }) => {
         <div
           className={`col p-0 ${styles.bgCustom} d-flex justify-content-center align-items-center flex-column w-100`}
         >
-          <form className="w-75" onSubmit={handleSubmit}>
+          <form method="post" className="w-75" onSubmit={handleSubmit}>
             <span>Login</span>
             <div className="mb-3">
               <label className="form-label">Email</label>
@@ -55,7 +55,7 @@ const LoginPage = ({ data }) => {
             <div className="mb-3">
               <label className="form-label">Password</label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 className="form-control"
                 onChange={(e) => setPassword(e.target.value)}

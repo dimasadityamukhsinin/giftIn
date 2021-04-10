@@ -17,7 +17,6 @@ const Cart = () => {
     const dataCheckout = JSON.parse(localStorage.getItem("dataCheckout"));
     if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
       client.checkout.fetch(dataCheckout.id).then((checkout) => {
-        console.log(checkout);
         setCart(checkout.lineItems);
       });
     }
@@ -133,7 +132,7 @@ const Cart = () => {
             {dataCart ? (
               dataCart.length > 0 ? (
                 <>
-                  <div className="row mb-4">
+                  <div className="row pb-4">
                     <div className="col-7">
                       <span>Product</span>
                     </div>
@@ -144,96 +143,97 @@ const Cart = () => {
                       <span>Sub Total</span>
                     </div>
                   </div>
-                  {dataCart.map((data, id) => (
-                    <div
-                      className="col mt-3"
-                      id={styles.card}
-                      key={id}
-                    >
-                      <div className="row py-4 align-items-center">
-                        <div className="col-1 text-center">
-                          <button onClick={() => removeItem(data.id)}>
-                            <Close />
-                          </button>
-                        </div>
-                        <div className="col-6">
-                          <div className="row">
-                            <div className="col-2">
-                              <img
-                                src={data.variant.image.src}
-                                alt={data.variant.image.altText}
-                                width="80"
-                                height="80"
-                              />
+                  {dataCart.map((data, id) =>
+                    data.variant ? (
+                      <>
+                        <div className="col mt-3" id={styles.card} key={id}>
+                          <div className="row py-4 align-items-center">
+                            <div className="col-1 text-center">
+                              <button onClick={() => removeItem(data.id)}>
+                                <Close />
+                              </button>
+                            </div>
+                            <div className="col-6">
+                              <div className="row">
+                                <div className="col-2">
+                                  <img
+                                    src={data.variant.image.src}
+                                    alt={data.variant.image.altText}
+                                    width="80"
+                                    height="80"
+                                  />
+                                </div>
+                                <div className="col">
+                                  <h5>{data.title}</h5>
+                                  <p>{`Rp.${data.variant.price}`}</p>
+                                </div>
+                              </div>
                             </div>
                             <div className="col">
-                              <h5>{data.title}</h5>
-                              <p>{`Rp.${data.variant.price}`}</p>
+                              <div className="row justify-content-center">
+                                <button
+                                  onClick={() => decQuantity(data.id)}
+                                  className="col-2 p-2 me-1 text-center"
+                                >
+                                  -
+                                </button>
+                                <input
+                                  type="text"
+                                  className="col-2 p-2 text-center"
+                                  value={data.quantity}
+                                  onChange={(e) =>
+                                    changeQuantity(data.id, e.target.value)
+                                  }
+                                />
+                                <button
+                                  onClick={() => increQuantity(data.id)}
+                                  className="col-2 p-2 ms-1 text-center"
+                                >
+                                  +
+                                </button>
+                              </div>
                             </div>
+                            <div className="col text-center">{`Rp.${
+                              data.quantity * data.variant.price
+                            }`}</div>
                           </div>
                         </div>
-                        <div className="col">
-                          <div className="row justify-content-center">
-                            <button
-                              onClick={() => decQuantity(data.id)}
-                              className="col-2 p-2 me-1 text-center"
-                            >
-                              -
-                            </button>
-                            <input
-                              type="text"
-                              className="col-2 p-2 text-center"
-                              value={data.quantity}
-                              onChange={(e) =>
-                                changeQuantity(data.id, e.target.value)
-                              }
-                            />
-                            <button
-                              onClick={() => increQuantity(data.id)}
-                              className="col-2 p-2 ms-1 text-center"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                        <div className="col text-center">{`Rp.${
-                          data.quantity * data.variant.price
-                        }`}</div>
-                      </div>
-                    </div>
-                  ))}
 
-                  <div
-                    className="row justify-content-end"
-                    id={styles.cartTotal}
-                  >
-                    <div className="col-5">
-                      <span className="d-block mb-3">CART TOTAL</span>
-                      <div className="row p-4 pb-5">
-                        <div className="col-8">
-                          <div>
-                            <span>TOTAL</span>
+                        <div
+                          className="row justify-content-end"
+                          id={styles.cartTotal}
+                        >
+                          <div className="col-5">
+                            <span className="d-block mb-3">CART TOTAL</span>
+                            <div className="row p-4 pb-5">
+                              <div className="col-8">
+                                <div>
+                                  <span>TOTAL</span>
+                                </div>
+                              </div>
+                              <div className="col">
+                                <div>
+                                  <span>
+                                    Rp.
+                                    {dataCart.map(
+                                      (data) =>
+                                        data.quantity * data.variant.price
+                                    )}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => onCheckout()}
+                              className="d-flex m-auto"
+                            >
+                              <span>PROCEED TO CHECKOUT</span>
+                            </button>
                           </div>
                         </div>
-                        <div className="col">
-                          <div>
-                            <span>
-                              Rp.
-                              {dataCart.map(
-                                (data) => data.quantity * data.variant.price
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => onCheckout()}
-                        className="d-flex m-auto"
-                      >
-                        <span>PROCEED TO CHECKOUT</span>
-                      </button>
-                    </div>
-                  </div>
+                      </>
+                    ) : null
+                  )}
                 </>
               ) : null
             ) : (

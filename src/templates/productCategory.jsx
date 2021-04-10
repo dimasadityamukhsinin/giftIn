@@ -64,23 +64,23 @@ const ProductCategory = ({ data }) => {
             </div>
             <div className="row pb-5" id={styles.gift}>
               {currentProducts ? (
-                currentProducts.map((datas, id) => (
-                  datas.node.image ? (
-                    <ProductComponent key={id} dataProduct={datas.node} />
+                currentProducts[0].map((datas, id) =>
+                  datas.image ? (
+                    <ProductComponent key={id} dataProduct={datas} />
                   ) : null
-                ))
+                )
               ) : (
                 <LoadingProduct />
               )}
             </div>
             {data.sanityCollection.product.length > 0 ? (
               currentProducts ? (
-              <Pagination
-                productsPerPage={productsPerPage}
-                totalProducts={currentProducts.length}
-                paginate={paginate}
-                currentProduct={currentProduct}
-              />
+                <Pagination
+                  productsPerPage={productsPerPage}
+                  totalProducts={currentProducts.length}
+                  paginate={paginate}
+                  currentProduct={currentProduct}
+                />
               ) : null
             ) : null}
           </div>
@@ -93,7 +93,7 @@ const ProductCategory = ({ data }) => {
 
 export const query = graphql`
   query ShopyProductByCategory($category: String!) {
-    sanityCollection(slug: {eq: $category }) {
+    sanityCollection(slug: { eq: $category }) {
       slug
       product {
         title

@@ -57,22 +57,24 @@ const ProductPage = ({ data }) => {
             </div>
             <div className="row pb-5" id={styles.gift}>
               {currentProducts ? (
-                currentProducts.map((datas, id) => (
+                currentProducts.map((datas, id) =>
                   datas.node.image ? (
                     <ProductComponent key={id} dataProduct={datas.node} />
                   ) : null
-                ))
+                )
               ) : (
                 <LoadingProduct />
               )}
             </div>
-            {currentProducts ? (
-              <Pagination
-                productsPerPage={productsPerPage}
-                totalProducts={currentProducts.length}
-                paginate={paginate}
-                currentProduct={currentProduct}
-              />
+            {data.shopifyProduct.edges.length > 0 ? (
+              currentProducts ? (
+                <Pagination
+                  productsPerPage={productsPerPage}
+                  totalProducts={currentProducts.length}
+                  paginate={paginate}
+                  currentProduct={currentProduct}
+                />
+              ) : null
             ) : null}
           </div>
         </div>

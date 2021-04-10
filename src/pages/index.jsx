@@ -71,24 +71,27 @@ const IndexPage = ({ data }) => {
                     ))}
                   </div>
                 </div>
-                <div className="row mb-5" id={styles.gift}>
-                  {product ? (
-                    product.map((element, id) =>
-                      element.node.image ? (
-                        <ProductComponent key={id} dataProduct={element.node} />
-                      ) : null
-                    )
-                  ) : (
-                    <LoadingProduct />
-                  )}
-                </div>
-                <div
-                  className={`${styles.viewAll} row justify-content-center mb-5`}
-                >
-                  <Link className="text-center" to="/products">
-                    <span>VIEW ALL</span>
-                  </Link>
-                </div>
+                {data.shopifyProduct.edges.length > 0 ? (
+                  <>
+                    <div className="row mb-5" id={styles.gift}>
+                      {product ? product.map((element, id) =>
+                        element.node.image ? (
+                          <ProductComponent
+                            key={id}
+                            dataProduct={element.node}
+                          />
+                        ) : null
+                      ) : <LoadingProduct />}
+                    </div>
+                    <div
+                      className={`${styles.viewAll} row justify-content-center mb-5`}
+                    >
+                      <Link className="text-center" to="/products">
+                        <span>VIEW ALL</span>
+                      </Link>
+                    </div>
+                  </>
+                ) : null}
                 <div className="row mb-5" id={styles.specialize}>
                   <h2 className="text-center mb-4">
                     We Don't Just Send Gifts. <br />

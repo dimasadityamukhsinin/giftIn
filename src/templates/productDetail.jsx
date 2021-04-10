@@ -9,7 +9,7 @@ import { graphql } from "gatsby";
 import Footer from "../components/parts/footer";
 
 const ProductDetail = ({ data }) => {
-  const [product] = useState(data.shopifyProduct);
+  const [product] = useState(data.sanityProduct);
   const [cart, setCart] = useState(1);
   const appContext = useAppContext();
 
@@ -26,7 +26,7 @@ const ProductDetail = ({ data }) => {
     if (dataCheckout && dataCheckout.email === localStorage.getItem("email")) {
       const lineItemsToAdd = [
         {
-          variantId: product.variants[0].id.split("__")[2],
+          variantId: product.variantId,
           quantity: 1,
         },
       ];
@@ -49,7 +49,7 @@ const ProductDetail = ({ data }) => {
 
         const lineItemsToAdd = [
           {
-            variantId: product.variants[0].id.split("__")[2],
+            variantId: product.variantId,
             quantity: 1,
           },
         ];
@@ -66,6 +66,28 @@ const ProductDetail = ({ data }) => {
     }
   };
 
+  const toPlainText = (blocks = []) => {
+    return (
+      blocks
+        // loop through each block
+        .map((block) => {
+          // if it's not a text block with children,
+          // return nothing
+          if (block._type !== "block" || !block.children) {
+            return "";
+          }
+          // loop through the children spans, and join the
+          // text strings
+          return block.children
+            .map((child) => child.text)
+            .join("")
+            .replace("\n", "<br />");
+        })
+        // join the paragraphs leaving split by two linebreaks
+        .join("\n\n")
+    );
+  };
+
   return (
     <>
       <main>
@@ -79,8 +101,8 @@ const ProductDetail = ({ data }) => {
             <div className="row">
               <div className="col">
                 <img
-                  src={product.images[0].originalSrc}
-                  alt={product.images[0].title}
+                  src={product.image.asset.url}
+                  alt={product.title}
                 />
               </div>
               <div className="col p-4">
@@ -90,13 +112,15 @@ const ProductDetail = ({ data }) => {
                     <span>Type : {product.productType}</span>
                   </div>
                   <div className="col-3">
-                    <span>Weight : {product.variants[0].weight}Kg</span>
+                    <span>Weight : {product.weight}Kg</span>
                   </div>
                 </div>
                 <span className="d-block p-4 my-4">
-                  Rp.{product.variants[0].price}
+                  Rp.{product.price}
                 </span>
-                <div className="mt-4">{parse(product.descriptionHtml)}</div>
+                <div className="mt-4">
+                  <p>{parse(toPlainText(product.productDescription._rawChildren))}</p>
+                </div>
                 <div className="row mt-2 align-items-center">
                   <div className="col-3">
                     <span>Quantity</span>
@@ -126,23 +150,20 @@ const ProductDetail = ({ data }) => {
 };
 
 export const query = graphql`
-  query ShopifyProductById($id: String!) {
-    shopifyProduct(id: { eq: $id }) {
+  query ShopifyProductBySlug($slug: String!) {
+    sanityProduct(slug: { current: { eq: $slug } }) {
       id
       title
-      handle
-      productType
-      descriptionHtml
-      vendor
-      variants {
-        id
-        title
-        price
-        weight
+      productId
+      variantId
+      productDescription {
+        _rawChildren
       }
-      images {
-        id
-        originalSrc
+      price
+      image {
+        asset {
+          url
+        }
       }
     }
   }

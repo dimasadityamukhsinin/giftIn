@@ -32,6 +32,8 @@ exports.handler = async (event, context) => {
     };
   }
 
+  console.log(data)
+
   // Shopify sends both Product Updates/Creations AND deletions as POST requests
   // Product Updates & Creations contain the entire product body, including titles, tags, images, handle, etc.
   // Product Deletions only contain a singular 'id'

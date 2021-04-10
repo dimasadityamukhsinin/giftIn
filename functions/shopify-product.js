@@ -42,7 +42,7 @@ exports.handler = async (event, context) => {
       _id: data.id.toString(),
       productId: data.id,
       title: data.title,
-      defaultPrice: data.variants[0].price,
+      price: data.variants[0].price,
       sku: data.variants[0].sku,
       slug: {
         _type: "slug",

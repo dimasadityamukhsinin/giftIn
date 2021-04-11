@@ -66,6 +66,7 @@ const Navigation = ({ active }) => {
       .signOut()
       .then(() => {
         setLogin(false);
+        localStorage.removeItem('email');
       })
       .catch((error) => {
         console.log(error);

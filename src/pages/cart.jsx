@@ -8,6 +8,7 @@ import Close from "../components/icons/close";
 import Swal from "sweetalert2";
 import ReactLoading from "react-loading";
 import { useAppContext } from "../context/store";
+import { navigate } from "gatsby-link";
 
 const Cart = () => {
   const [dataCart, setCart] = React.useState(null);
@@ -115,6 +116,8 @@ const Cart = () => {
   };
 
   React.useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (!email) return navigate("/");
     fetchCart();
   }, []);
 

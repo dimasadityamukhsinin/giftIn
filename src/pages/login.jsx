@@ -4,22 +4,32 @@ import * as React from "react";
 import * as styles from "../styles/modules/auth.module.scss";
 import firebase from "gatsby-plugin-firebase";
 import { Helmet } from "react-helmet";
+import Swal from "sweetalert2";
+import ReactLoading from "react-loading";
 
 const LoginPage = ({ data }) => {
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((_) => {
+        setLoading(false);
         localStorage.setItem("email", email);
         navigate(`/`);
       })
       .catch((error) => {
-        console.log(error);
+        setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
       });
   };
 
@@ -29,6 +39,25 @@ const LoginPage = ({ data }) => {
         <meta charSet="utf-8" />
         <title>Login</title>
       </Helmet>
+      {loading ? (
+        <div
+          className="d-flex"
+          style={{
+            position: "absolute",
+            height: "100vh",
+            width: "100%",
+            background: "black",
+            opacity: 0.4,
+            zIndex: 99
+          }}
+        >
+          <ReactLoading
+            type="spin"
+            color="white"
+            className="m-auto"
+          />
+        </div>
+      ) : null}
       <div className="row m-0 h-100">
         <div
           className={`col p-0 text-center d-flex justify-content-center justify-self-end align-items-center ${styles.displayNone}`}

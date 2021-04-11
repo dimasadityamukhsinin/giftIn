@@ -5,22 +5,32 @@ import * as styles from "../styles/modules/auth.module.scss";
 import firebase from "gatsby-plugin-firebase";
 import { Helmet } from "react-helmet";
 import { Link } from "gatsby";
+import Swal from "sweetalert2";
+import ReactLoading from "react-loading";
 
 const RegisterPage = ({ data }) => {
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((_) => {
-        window.localStorage.setItem("emailForSignIn", email);
+        setLoading(false);
+        localStorage.setItem("emailForSignIn", email);
         navigate(`/`);
       })
       .catch((error) => {
-        console.log(error);
+        setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+        });
       });
   };
 
@@ -30,6 +40,21 @@ const RegisterPage = ({ data }) => {
         <meta charSet="utf-8" />
         <title>Register</title>
       </Helmet>
+      {loading ? (
+        <div
+          className="d-flex"
+          style={{
+            position: "absolute",
+            height: "100vh",
+            width: "100%",
+            background: "black",
+            opacity: 0.4,
+            zIndex: 99,
+          }}
+        >
+          <ReactLoading type="spin" color="white" className="m-auto" />
+        </div>
+      ) : null}
       <div className="row m-0 h-100">
         <div
           className={`col p-0 text-center d-flex justify-content-center justify-self-end align-items-center ${styles.displayNone}`}
@@ -64,8 +89,8 @@ const RegisterPage = ({ data }) => {
                 required
               />
             </div>
-            <div class="row">
-              <div class="col-md-6">
+            <div className="row">
+              <div className="col-md-6">
                 <Link to="/login">Have account?</Link>
               </div>
             </div>

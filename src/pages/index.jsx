@@ -275,7 +275,7 @@ export const query = graphql`
         }
       }
     }
-    shopifyProduct: allSanityProduct {
+    shopifyProduct: allSanityProduct(sort: {order: ASC}) {
       edges {
         node {
           title

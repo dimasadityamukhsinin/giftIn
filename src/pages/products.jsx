@@ -86,7 +86,7 @@ const ProductPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    shopifyProduct: allSanityProduct {
+    shopifyProduct: allSanityProduct(sort: {order: ASC}) {
       edges {
         node {
           title

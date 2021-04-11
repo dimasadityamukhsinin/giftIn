@@ -47,19 +47,21 @@ const ProductCategory = ({ data }) => {
                 <Link className="col-2 text-center" to="/products">
                   <span>New Gift's</span>
                 </Link>
-                {category.map((el, id) => (
-                  <Link
-                    className={`col-2 text-center ${
-                      data.sanityCollection.slug === el.node.slug
-                        ? `active`
-                        : ``
-                    }`}
-                    to={`/products/category/${el.node.slug}`}
-                    key={id}
-                  >
-                    <span>{el.node.title}</span>
-                  </Link>
-                ))}
+                {data.shopifyCategory.edges.length > 0
+                  ? category.map((el, id) => (
+                      <Link
+                        className={`col-2 text-center ${
+                          data.sanityCollection.slug === el.node.slug
+                            ? `active`
+                            : ``
+                        }`}
+                        to={`/products/category/${el.node.slug}`}
+                        key={id}
+                      >
+                        <span>{el.node.title}</span>
+                      </Link>
+                    ))
+                  : null}
               </div>
             </div>
             <div className="row pb-5" id={styles.gift}>

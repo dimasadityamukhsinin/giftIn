@@ -12,7 +12,6 @@ const ProductPage = ({ data }) => {
   const [currentProduct, setCurrentPage] = React.useState(1);
   const [currentProducts, setCurrentProducts] = React.useState();
   const [productsPerPage] = React.useState(8);
-  const [category] = React.useState(data.shopifyCategory.edges);
 
   //change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -44,15 +43,17 @@ const ProductPage = ({ data }) => {
                 <Link className="col-2 text-center active" to="/products">
                   <span>New Gift's</span>
                 </Link>
-                {category.map((data, id) => (
-                  <Link
-                    className="col-2 text-center"
-                    to={`/products/category/${data.node.handle}`}
-                    key={id}
-                  >
-                    <span>{data.node.title}</span>
-                  </Link>
-                ))}
+                {data.shopifyCategory.edges.length > 0
+                  ? data.shopifyCategory.edges.map((data, id) => (
+                      <Link
+                        className="col-2 text-center"
+                        to={`/products/category/${data.node.slug}`}
+                        key={id}
+                      >
+                        <span>{data.node.title}</span>
+                      </Link>
+                    ))
+                  : null}
               </div>
             </div>
             <div className="row pb-5" id={styles.gift}>
@@ -86,7 +87,7 @@ const ProductPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    shopifyProduct: allSanityProduct(sort: {order: ASC}) {
+    shopifyProduct: allSanityProduct {
       edges {
         node {
           title
@@ -105,11 +106,11 @@ export const query = graphql`
         }
       }
     }
-    shopifyCategory: allShopifyCollection {
+    shopifyCategory: allSanityCollection {
       edges {
         node {
           title
-          handle
+          slug
         }
       }
     }

@@ -11,9 +11,6 @@ import { Link } from "gatsby";
 
 // markup
 const IndexPage = ({ data }) => {
-  const [product] = React.useState(data.shopifyProduct.edges);
-  const [category] = React.useState(data.shopifyCategory.edges);
-
   return (
     <>
       <main>
@@ -60,28 +57,34 @@ const IndexPage = ({ data }) => {
                     <Link className="col-2 text-center active" to="/products">
                       <span>New Gift's</span>
                     </Link>
-                    {category.map((data, id) => (
-                      <Link
-                        className="col-2 text-center"
-                        to={`/products/category/${data.node.handle}`}
-                        key={id}
-                      >
-                        <span>{data.node.title}</span>
-                      </Link>
-                    ))}
+                    {data.shopifyCategory.edges.length > 0
+                      ? data.shopifyCategory.edges.map((data, id) => (
+                          <Link
+                            className="col-2 text-center"
+                            to={`/products/category/${data.node.slug}`}
+                            key={id}
+                          >
+                            <span>{data.node.title}</span>
+                          </Link>
+                        ))
+                      : null}
                   </div>
                 </div>
                 {data.shopifyProduct.edges.length > 0 ? (
                   <>
                     <div className="row mb-5" id={styles.gift}>
-                      {product ? product.map((element, id) =>
-                        element.node.image ? (
-                          <ProductComponent
-                            key={id}
-                            dataProduct={element.node}
-                          />
-                        ) : null
-                      ) : <LoadingProduct />}
+                      {data.shopifyProduct.edges ? (
+                        data.shopifyProduct.edges.map((element, id) =>
+                          element.node.image ? (
+                            <ProductComponent
+                              key={id}
+                              dataProduct={element.node}
+                            />
+                          ) : null
+                        )
+                      ) : (
+                        <LoadingProduct />
+                      )}
                     </div>
                     <div
                       className={`${styles.viewAll} row justify-content-center mb-5`}
@@ -275,7 +278,7 @@ export const query = graphql`
         }
       }
     }
-    shopifyProduct: allSanityProduct(sort: {order: ASC}) {
+    shopifyProduct: allSanityProduct {
       edges {
         node {
           title
@@ -294,11 +297,11 @@ export const query = graphql`
         }
       }
     }
-    shopifyCategory: allShopifyCollection {
+    shopifyCategory: allSanityCollection {
       edges {
         node {
+          slug
           title
-          handle
         }
       }
     }

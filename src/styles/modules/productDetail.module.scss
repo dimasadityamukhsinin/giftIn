@@ -8,6 +8,17 @@
         &>div {
             background: white;
 
+            &>div:first-child {
+                @include respond-to("sm") {
+                    width: 100%;
+                    flex: 0 0 auto;
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+
             &>div:last-child {
                 h4 {
                     padding-bottom: 12px;

@@ -91,10 +91,10 @@ const ProductDetail = ({ data }) => {
               <div className="col p-4">
                 <h4>{product.title}</h4>
                 <div className="row">
-                  <div className="col-3">
+                  <div className="col-4">
                     <span>Type : {product.productType}</span>
                   </div>
-                  <div className="col-3">
+                  <div className="col-4">
                     <span>Weight : {product.weight}Kg</span>
                   </div>
                 </div>

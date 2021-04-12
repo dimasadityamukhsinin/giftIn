@@ -35,7 +35,7 @@ const IndexPage = ({ data }) => {
                   className={styles.giftButton + " w-50 mt-5"}
                   to="/products"
                 >
-                  CHOOSE A GIFT
+                  <span>CHOOSE A GIFT</span>
                 </Link>
               </div>
             </div>

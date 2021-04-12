@@ -11,27 +11,8 @@
 
 .giftButton {
   font-size: 15px;
-  text-decoration: none;
-  background-image: linear-gradient(to right,
-      #fa2d4a 0%,
-      #ed8c92 51%,
-      #fa2d4a 100%);
   padding: 15px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  box-shadow: 0px 17px 25px #f0c7cf;
-  border-radius: 10px;
-  display: block;
-
-  &:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-  }
+  @include gradientButton;
 }
 
 #wrapGrey {
@@ -89,109 +70,12 @@
     }
   }
 
-  #gift {
-    display: flex;
-    grid-gap: 26px;
-
-    @include respond-to("md") {
-      justify-content: center;
-      align-items: center;
-    }
-
-    &>a {
-      font-weight: 500;
-      color: #150e4b;
-      background: white;
-      width: calc(100% / 4 - 26px);
-      border-radius: 20px;
-
-      @include respond-to("md") {
-        width: 100%;
-      }
-
-      img {
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        width: 100%;
-        object-fit: cover;
-      }
-
-      &>div {
-        padding-top: 30px;
-        padding-bottom: 35px;
-
-        &>div {
-          h4 {
-            font-size: 22px;
-          }
-
-          &>span {
-            margin-top: 5px;
-            font-size: 12px;
-          }
-
-          &>a {
-            font-weight: 500;
-            font-size: 12px;
-            border: solid thin #bfc2c7;
-            border-radius: 15px;
-            padding: 10px;
-            width: 100px;
-
-            span {
-              color: black;
-            }
-
-            &:hover {
-              border: solid thin #ed8c92;
-
-              span {
-                color: white;
-              }
-
-              background-image: linear-gradient(to right,
-                #fa2d4a 0%,
-                #ed8c92 100%,
-                #fa2d4a 100%);
-            }
-          }
-        }
-
-        &>div:last-child {
-          span {
-            font-size: 16px;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-  }
-
   .viewAll {
     a {
       width: 130px;
       font-size: 15px;
-      text-decoration: none;
-      background-image: linear-gradient(to right,
-          #fa2d4a 0%,
-          #ed8c92 51%,
-          #fa2d4a 100%);
       padding: 15px;
-      text-align: center;
-      text-transform: uppercase;
-      transition: 0.5s;
-      background-size: 200% auto;
-      color: white;
-      box-shadow: 0px 17px 25px #f0c7cf;
-      border-radius: 10px;
-      display: block;
-
-      &:hover {
-        background-position: right center;
-        /* change the direction of the change here */
-        color: #fff;
-        text-decoration: none;
-      }
+      @include gradientButton;
     }
   }
 
@@ -254,27 +138,8 @@
       a {
         width: 130px;
         font-size: 15px;
-        text-decoration: none;
-        background-image: linear-gradient(to right,
-            #fa2d4a 0%,
-            #ed8c92 51%,
-            #fa2d4a 100%);
         padding: 15px;
-        text-align: center;
-        text-transform: uppercase;
-        transition: 0.5s;
-        background-size: 200% auto;
-        color: white;
-        box-shadow: 0px 17px 25px #f0c7cf;
-        border-radius: 10px;
-        display: block;
-
-        &:hover {
-          background-position: right center;
-          /* change the direction of the change here */
-          color: #fff;
-          text-decoration: none;
-        }
+        @include gradientButton;
       }
 
       iframe {

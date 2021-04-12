@@ -78,22 +78,8 @@
                             outline: none;
                             border: none;
                             font-size: 15px;
-                            background-image: linear-gradient(to right,
-                                    #fa2d4a 0%,
-                                    #ed8c92 51%,
-                                    #fa2d4a 100%);
                             padding: 12px 0px;
-                            transition: 0.5s;
-                            background-size: 200% auto;
-                            color: white;
-                            box-shadow: 0px 17px 25px #f0c7cf;
-                            border-radius: 10px;
-
-                            &:hover {
-                                background-position: right center;
-                                color: #fff;
-                                text-decoration: none;
-                            }
+                            @include gradientButton;
 
                             span {
                                 width: 100%;

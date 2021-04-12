@@ -46,6 +46,7 @@
 
     &>div {
         padding: 70px;
+
         @include respond-to("sm") {
             padding: 30px;
         }
@@ -57,26 +58,8 @@
 
         a {
             font-size: 15px;
-            text-decoration: none;
-            background-image: linear-gradient(to right,
-                    #fa2d4a 0%,
-                    #ed8c92 51%,
-                    #fa2d4a 100%);
             padding: 15px;
-            text-align: center;
-            text-transform: uppercase;
-            transition: 0.5s;
-            background-size: 200% auto;
-            color: white;
-            box-shadow: 0px 17px 25px #f0c7cf;
-            border-radius: 10px;
-            display: block;
-
-            &:hover {
-                background-position: right center;
-                color: #fff;
-                text-decoration: none;
-            }
+            @include gradientButton;
         }
     }
 }

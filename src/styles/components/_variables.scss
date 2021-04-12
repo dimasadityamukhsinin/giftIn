@@ -1,1 +1,24 @@
 @import 'general';
+
+@mixin gradientButton {
+    text-decoration: none;
+    background-image: linear-gradient(to right,
+        #fa2d4a 0%,
+        #ed8c92 51%,
+        #fa2d4a 100%);
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0px 17px 25px #f0c7cf;
+    border-radius: 10px;
+    display: block;
+  
+    &:hover {
+      background-position: right center;
+      /* change the direction of the change here */
+      color: #fff;
+      text-decoration: none;
+    }
+}
